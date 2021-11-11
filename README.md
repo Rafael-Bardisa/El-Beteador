@@ -1,2 +1,3 @@
 # El-Beteador
-Beteable en verdad
+Casa de apuestas:*pone una cuota*
+Los pibes: Beteable en verdad
