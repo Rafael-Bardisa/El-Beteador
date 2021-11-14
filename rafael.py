@@ -1,16 +1,7 @@
 from selenium import webdriver
 import chromedriver
-import atexit
-import sys
 
-
-def test2():
-    print('exit')
-
-
-driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver")
-chromedriver.placeholder(driver)
-
-# test()
-atexit.register(test2)
-sys.exit()
+if __name__ == '__main__':
+    driver_1 = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver")
+    driver_2 = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver")
+    chromedriver.BETEADOR(driver_1, driver_2)

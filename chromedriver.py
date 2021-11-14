@@ -1,49 +1,54 @@
-#from selenium import webdriver
+# from selenium import webdriver
 import pandas
 import time
 import sys
+import bet365_chromedriver13_11_2021 as bet #import scrapping para bet365
 from multiprocessing import Process, Pipe
 
+'''
+def bet_scrap(driver, proc_pipe):
+    data = bet.scrap(driver)
+    proc_pipe.send(data)
+    proc_pipe.close()
 
-def placeholder(driver):
-    #driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver")
-    bet365 = "https://www.bet365.es/#/OF/"
-    codere = "https://www.codere.es/"
+'''
 
-    #Entra en Bet365
-    driver.get(bet365)
-
-    #Espera y entra en tenis
-    time.sleep(1)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div[29]").click()
-
-    #Espera y entra en la lista de partidos
-    time.sleep(1)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div[3]/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/span").click()
+# comprueba si vale la pena apostar si hay cuotas a, b
+def z(a, b):
+    return a*b - (a+b)
 
 
-    databet365 = pandas.DataFrame()
+def BETEADOR(driver_1, driver_2):
+    #llevar a los drivers a las casas
+    action = '0'
+    bet.go(driver_1)
 
-def f(conn):
-    conn.send([42, None, 'hello'])
-    conn.close()
+    #loop principal del programa
+    while 1:
+        #scrapea las paginas
+        data = bet.scrap(driver_1)
 
-if __name__ == '__main__':
-    parent_conn, child_conn = Pipe()
-    p = Process(target=f, args=(child_conn,))
-    p.start()
-    print(parent_conn.recv())   # prints "[42, None, 'hello']"
-    p.join()
+        #unir datas en dataframe
+
+
+        #columnas para saber si hay arbitraje
+
+
+        #printear oportunidades
+        print(data)
+
+        #volver a ejecutar loop o salir (0)
+        action = input(action)
+        if action == '0':
+            return 0
+
+
 
 # dos subprocesses, uno para cada casa
-#loop hasta cerrar el programa:
+# loop hasta cerrar el programa:
 '''
 procesos devuelven data scrapeada
 usar pandas dataframe para unir los mismos partidos
 comprobar arbitraje segun cuotas
 '''
-#cerrar subprocesses
-
-
-
-
+# cerrar subprocesses
