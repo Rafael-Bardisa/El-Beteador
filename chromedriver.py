@@ -26,6 +26,8 @@ def BETEADOR(driver_1, driver_2):
     #loop principal del programa
     while 1:
         #scrapea las paginas
+
+        #asume data: {partido: [cuota 1, cuota 2]}
         data = bet.scrap(driver_1)
 
         #unir datas en dataframe
