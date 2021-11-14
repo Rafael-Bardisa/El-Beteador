@@ -1,6 +1,9 @@
-from selenium import webdriver
+#from selenium import webdriver
 import pandas
 import time
+import sys
+from multiprocessing import Process, Pipe
+
 
 def placeholder(driver):
     #driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver")
@@ -20,4 +23,27 @@ def placeholder(driver):
 
 
     databet365 = pandas.DataFrame()
+
+def f(conn):
+    conn.send([42, None, 'hello'])
+    conn.close()
+
+if __name__ == '__main__':
+    parent_conn, child_conn = Pipe()
+    p = Process(target=f, args=(child_conn,))
+    p.start()
+    print(parent_conn.recv())   # prints "[42, None, 'hello']"
+    p.join()
+
+# dos subprocesses, uno para cada casa
+#loop hasta cerrar el programa:
+'''
+procesos devuelven data scrapeada
+usar pandas dataframe para unir los mismos partidos
+comprobar arbitraje segun cuotas
+'''
+#cerrar subprocesses
+
+
+
 
