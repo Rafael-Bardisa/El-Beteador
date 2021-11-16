@@ -2,7 +2,7 @@ from selenium import webdriver
 import pandas
 import time
 
-driver = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver")
+#driver = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver")
 bet365 = "https://www.bet365.es/#/OF/"
 codere = "https://www.codere.es/"
 
