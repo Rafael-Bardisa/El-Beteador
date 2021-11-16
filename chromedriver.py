@@ -1,4 +1,4 @@
-# from selenium import webdriver
+from selenium import webdriver
 import pandas
 import time
 import sys
@@ -18,17 +18,17 @@ def z(a, b):
     return a*b - (a+b)
 
 
-def BETEADOR(driver_1, driver_2):
+def BETEADOR(driver):
     #llevar a los drivers a las casas
     action = '0'
-    bet.go(driver_1)
+    bet.go(driver)
 
     #loop principal del programa
     while 1:
         #scrapea las paginas
 
         #asume data: {partido: [cuota 1, cuota 2]}
-        data = bet.scrap(driver_1)
+        data = bet.scrap(driver)
 
         #unir datas en dataframe
 
@@ -54,3 +54,13 @@ usar pandas dataframe para unir los mismos partidos
 comprobar arbitraje segun cuotas
 '''
 # cerrar subprocesses
+
+#opciones de chrome para intentar camuflar el driver
+def camo():
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--disable-extensions')
+    chrome_options.add_argument('--profile-directory=Default')
+    chrome_options.add_argument("--incognito")
+    chrome_options.add_argument("--disable-plugins-discovery");
+    chrome_options.add_argument("--start-maximized")
+

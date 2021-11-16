@@ -3,17 +3,18 @@ import pandas
 import time
 
 #driver = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver")
-bet365 = "https://www.bet365.es/#/OF/"
+bet365 = "https://www.bet365.es/#/AS/B13/"
 codere = "https://www.codere.es/"
+
+#rip path ("/html/body/div[1]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div[29]")
 
 def go(driver):
     driver.get(bet365)
-
-    time.sleep(1)
-    driver.find_element_by_xpath("/html/body/div[1]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div[29]").click()
-    time.sleep(1)
+    time.sleep(6)
+    driver.find_element_by_xpath("/html/body/div[1]/div/div[3]/div[3]/div/div/div/div[1]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]").click()
+    time.sleep(6)
     driver.find_element_by_xpath("/html/body/div[1]/div/div[3]/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[2]/div[2]/div/div/div[2]/div[1]/span").click()
-    time.sleep(1)
+    time.sleep(6)
 
 
 def scrap(driver):

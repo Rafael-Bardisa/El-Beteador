@@ -1,9 +1,10 @@
 # from selenium import webdriver
 import pandas as pd
-import time
-import sys
+# import time
+# import sys
 import bet365_chromedriver13_11_2021 as bet  # import scrapping para bet365
-from multiprocessing import Process, Pipe
+
+# from multiprocessing import Process, Pipe
 
 '''
 def bet_scrap(driver, proc_pipe):
@@ -58,7 +59,7 @@ def big_merge(cuota_1, cuota_2, casa_1, casa_2):
 
 def BETI(driver_1, driver_2):
     # llevar a los drivers a las casas
-    action = '0'    # valor inicial random
+    action = '0'  # valor inicial random
     bet.go(driver_1)
 
     # loop principal del programa
