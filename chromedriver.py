@@ -63,4 +63,5 @@ def camo():
     chrome_options.add_argument("--incognito")
     chrome_options.add_argument("--disable-plugins-discovery");
     chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("user-agent=RealBeti")
 

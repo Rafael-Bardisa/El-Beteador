@@ -3,6 +3,7 @@ import pandas as pd
 # import time
 # import sys
 import bet365_chromedriver13_11_2021 as bet  # import scrapping para bet365
+import william_scrap as will # import scrapping para william hill
 
 # from multiprocessing import Process, Pipe
 
@@ -57,17 +58,21 @@ def big_merge(cuota_1, cuota_2, casa_1, casa_2):
     return data_summary
 
 
-def BETI(driver_1, driver_2):
+def BETI(driver):
+
+
+    # TODO que casas usamos
+    nombre_casas = ['william']
+
     # llevar a los drivers a las casas
     action = '0'  # valor inicial random
-    bet.go(driver_1)
+    #bet.go(driver)
 
+    ejecutar = input('Enter cuando las pestañas ')
     # loop principal del programa
     while 1:
-        casas = []  # lista vacia donde guardar los datos de las casas
-        # TODO que casas usamos
-        nombre_casas = []
 
+        casas = []  # lista vacia donde guardar los datos de las casas
         # listas para guardar dicts de {partido: una cuota}
         casas_cuota_1 = []
         casas_cuota_2 = []
@@ -75,9 +80,9 @@ def BETI(driver_1, driver_2):
         # TODO scrapea las paginas
 
         # asume data: {partido: [cuota 1, cuota 2]}
-        data = bet.scrap(driver_1)
+        data = will.scrap(driver)
         # ...
-        # casas.append(data)
+        casas.append(data)
 
         # unir datas en dataframe
         for i in range(0, len(casas)):
@@ -85,8 +90,8 @@ def BETI(driver_1, driver_2):
             casas_cuota_1.append(cuota_1)
             casas_cuota_2.append(cuota_2)
 
-        data_cuota_1 = build_dataframe(casas_cuota_1)
-        data_cuota_2 = build_dataframe(casas_cuota_2)
+        data_cuota_1 = build_dataframe(casas_cuota_1, nombre_casas)
+        data_cuota_2 = build_dataframe(casas_cuota_2, nombre_casas)
 
         # columnas para saber si hay arbitraje
         mejor_cuota_1 = data_cuota_1.max(axis=1, skipna=True)  # mejor cuota 1 para cada partido
@@ -105,12 +110,3 @@ def BETI(driver_1, driver_2):
         if action == '0':
             return 0
 
-
-# dos subprocesses, uno para cada casa
-# loop hasta cerrar el programa:
-'''
-procesos devuelven data scrapeada
-usar pandas dataframe para unir los mismos partidos
-comprobar arbitraje segun cuotas
-'''
-# cerrar subprocesses

@@ -2,14 +2,14 @@ from selenium import webdriver
 import pandas
 import time
 
-driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
-bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
-codere = "https://www.codere.es/"
+#driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
+#bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
+#codere = "https://www.codere.es/"
 
 #rip path ("/html/body/div[1]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div[29]")
 
-def go(driver):
-    driver.get(bet365tenis)
+#def go(driver):
+#    driver.get(bet365tenis)
 
 
 
@@ -32,17 +32,17 @@ def scrap(driver):
     
 
 
-go(driver=driv)
+#go(driver=driv)
 
 
 #de aqui sacas cuotas
-clase1 = driv.find_elements_by_class_name("gl-MarketGroupContainer ")
+#clase1 = driv.find_elements_by_class_name("gl-MarketGroupContainer ")
 
-clase1[0].get_attribute("innerText")
-clase1[1].get_attribute("innerText")
+#clase1[0].get_attribute("innerText")
+#clase1[1].get_attribute("innerText")
 
 #de aqui sacas jugadores
-clase2 = driv.find_elements_by_class_name("rcl-ParticipantFixtureDetails_TeamAndScoresContainer")
-clase2[0].get_attribute("innerText")
-clase2[1].get_attribute("innerText")
+#clase2 = driv.find_elements_by_class_name("rcl-ParticipantFixtureDetails_TeamAndScoresContainer")
+#clase2[0].get_attribute("innerText")
+#clase2[1].get_attribute("innerText")
 
