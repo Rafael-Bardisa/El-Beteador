@@ -2,7 +2,7 @@ from selenium import webdriver
 import pandas
 import time
 import sys
-import bet365_chromedriver13_11_2021 as bet #import scrapping para bet365
+import bet365_scrap as bet #import scrapping para bet365
 from multiprocessing import Process, Pipe
 
 '''
