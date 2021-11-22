@@ -7,16 +7,34 @@ bwin = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
 
 driv.get(bwin)
 
-bwincuotas = driv.find_elements_by_class_name("grid-event-wrapper")
-bwincuotas[1].text
-bwincuotas[2].text
-bwincuotas[3].text
-bwincuotas[4].text
-bwincuotas[5].text
-bwincuotas[6].text
-bwincuotas[7].text
-bwincuotas[8].text
+bwinmatch = driv.find_elements_by_class_name("grid-event-wrapper")
+#bwinmatch[0].text
+
+match = []
+
+# Extrae cuotas    
+bwincuotas = []
+for i in range(len(bwinmatch)*2):
+    match  = bwinmatch[i//2].text.split('\n')
+    if i % 2 ==0:
+        bwincuotas.append(match[(len(match)-2)])
+    else:
+        bwincuotas.append(match[(len(match)-1)])
 
 
-bwinnames  = driv.find_elements_by_class_name("scoreboardInfoNames")
-bwinnames[0].text
+
+# convierte los elementos de las cuotas a numeros
+for i in range(len(bwincuotas)):
+    bwincuotas[i] = pandas.to_numeric(bwincuotas[i].text)
+
+
+
+# Extrae nombres
+bwinnames = []
+for i in range(2*len(bwinmatch)):
+    match = bwinmatch[i//2].text.split('\n')
+    if i % 2 ==0:
+        bwinnames.append(match[0])
+    else:
+        bwinnames.append(match[1])
+
