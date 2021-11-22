@@ -4,6 +4,7 @@ import pandas as pd
 # import sys
 import bet365_chromedriver13_11_2021 as bet  # import scrapping para bet365
 import william_scrap as will # import scrapping para william hill
+import betway_scrap as bway # import scrapping para betway
 
 # from multiprocessing import Process, Pipe
 
