@@ -7,8 +7,6 @@ import chromedriver
 #betway = "https://betway.es/es/sports/sct/tennis/challenger"
 
 def scrap(driver):
-    # TODO esto en algun momento se va fuera pero de momento es conveniente
-
 
     betwaycuotas = driver.find_elements_by_class_name("oddsDisplay")
     betwaynames = driver.find_elements_by_class_name("scoreboardInfoNames")
@@ -32,8 +30,12 @@ def scrap(driver):
     truenames = []
     for i in range(len(splitnames)):
         data = splitnames[i].split(" ")
-        name = data[0][0]
-        surname = data[1]
+        if data[0][0] == '√':   #un clasico
+            name = data[1][0]
+            surname = data[2]
+        else:
+            name = data[0][0]
+            surname = data[1]
         nombre = surname + " " + name
         truenames.append(nombre)
 

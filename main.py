@@ -6,15 +6,8 @@ import bet365_chromedriver13_11_2021 as bet  # import scrapping para bet365
 import william_scrap as will # import scrapping para william hill
 import betway_scrap as bway # import scrapping para betway
 
-# from multiprocessing import Process, Pipe
-
-'''
-def bet_scrap(driver, proc_pipe):
-    data = bet.scrap(driver)
-    proc_pipe.send(data)
-    proc_pipe.close()
-
-'''
+URLs = ["https://sports.williamhill.es/betting/es-es/en-directo/tenis",
+        "https://betway.es/es/sports/sct/tennis/challenger"]
 
 
 # comprueba si vale la pena apostar si hay cuotas a, b
@@ -63,13 +56,14 @@ def BETI(driver):
 
 
     # TODO que casas usamos
-    nombre_casas = ['william']
+    nombre_casas = ['william', 'betway']
 
     # llevar a los drivers a las casas
     action = '0'  # valor inicial random
     #bet.go(driver)
-
-    ejecutar = input('Enter cuando las pestañas ')
+    print('ELIMINA LOS DOBLES')
+    print('URLs por orden:\n' + str(URLs))
+    ejecutar = input('Enter cuando las pestañas:')
     # loop principal del programa
     while 1:
 
@@ -81,8 +75,11 @@ def BETI(driver):
         # TODO scrapea las paginas
 
         # asume data: {partido: [cuota 1, cuota 2]}
+        driver.switch_to.window(driver.window_handles[0])
         data = will.scrap(driver)
-        # ...
+        casas.append(data)
+        driver.switch_to.window(driver.window_handles[1])
+        data = bway.scrap(driver)
         casas.append(data)
 
         # unir datas en dataframe
@@ -104,7 +101,7 @@ def BETI(driver):
         data_final = big_merge(mejor_cuota_1, mejor_cuota_2, mejor_casa_1, mejor_casa_2)
         data_final['z'] = z(data_final['cuota 1'], data_final['cuota 2'])
         # printear oportunidades
-        print(data_final)
+        print(data_final.sort_values( by ='z', ascending = False).head(10))
 
         # volver a ejecutar loop o salir (0)
         action = input(action)

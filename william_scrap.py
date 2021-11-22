@@ -3,10 +3,11 @@ import pandas
 import time
 
 # driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
-bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
-codere = "https://www.codere.es/"
-william = "https://sports.williamhill.es/betting/es-es/en-directo/tenis"
+#bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
+#codere = "https://www.codere.es/"
+#william = "https://sports.williamhill.es/betting/es-es/en-directo/tenis"
 
+# TODO arreglar los nombres para que salgan bien las colisiones
 def apellido(str):  # corta str en el primer caracter no alfanumerico que encuentre
     for i in range(len(str)):
         if not (str[i].isalnum()):
@@ -14,10 +15,6 @@ def apellido(str):  # corta str en el primer caracter no alfanumerico que encuen
     return str
 
 def scrap(driver):
-    # pillar cuotas y 1 y 2. Despues, para distinguir los 1 de los 2, recordar la posicion en la que estan los 1 en el loop; los 2 con la misma posicion son falsos.
-    
-    # TODO esto en algun momento se va fuera pero de momento es conveniente
-    driver.get("https://sports.williamhill.es/betting/es-es/en-directo/tenis")
 
     williamcuotas = driver.find_elements_by_class_name("betbutton__odds")
     williamnames = driver.find_elements_by_class_name("btmarket__content")
