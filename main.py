@@ -2,9 +2,10 @@
 import pandas as pd
 # import time
 # import sys
-import bet365_chromedriver13_11_2021 as bet  # import scrapping para bet365
+import bet365_scrap as bet  # import scrapping para bet365
 import william_scrap as will # import scrapping para william hill
 import betway_scrap as bway # import scrapping para betway
+import bwin_scrap as bwin # import scrapping para bwin
 
 URLs = ["https://sports.williamhill.es/betting/es-es/en-directo/tenis",
         "https://betway.es/es/sports/sct/tennis/challenger"]
