@@ -44,38 +44,53 @@ def scrap(driver):
     # reformatea los nombres como apellido, inicial del nombre
     truenames = []
     drop_idx = []
+    #print(splitnames)
     for i in range(len(splitnames)):
         if splitnames[i][0].isnumeric():#ignora la fecha si existe
             splitnames[i] = splitnames[i].split('\n')[1]
         data = splitnames[i].split(" ")
-        if (len(data) == 1):
+        if (len(data) == 1):    #si es doble, skippea
             #lmaol
-            truenames.append(str(data))
+            drop_idx.append(i)
         else:
             name = data[0][0]
             surname = apellido(data[1])
             nombre = surname + " " + name
             truenames.append(nombre)
 
+    #print(truenames)
+    #print(len(truenames))
+    #print(len(drop_idx))
+    #print(len(williamcuotas))
+    for i in range(len(drop_idx)):
+        williamcuotas.pop(drop_idx[i] - i)
+
+    #print(len(williamcuotas))
     # une los nombres para identificar el parotid
+    truerwilliamnames = []
     for i in range(len(truenames)//2):
-        truewilliamnames[i] = truenames[i*2] + " " + truenames[i*2 + 1]
+        truerwilliamnames.append(truenames[i*2] + " " + truenames[i*2 + 1])
 
 
 
     #print(repr(truewilliamnames[0]))
     #print(len(truewilliamnames))
     #print(splitnames)
+    print(len(truerwilliamnames))
 
     # crea el diccionario magico que usa el main para crear la dataframe final
     william_dict = {}
-    for i in range(len(truewilliamnames)):
-        william_dict[truewilliamnames[i]] = [williamcuotas[i*2], williamcuotas[(i*2) + 1]]
+    for i in range(len(truerwilliamnames)):
+        william_dict[truerwilliamnames[i]] = [williamcuotas[i*2], williamcuotas[(i*2) + 1]]
     return william_dict
         
 if __name__ == '__main__':
-        driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
-        a = input('wait')
-        scrap(driver)
+    a = [9,8,7,5]
+    print(len(a))
+    a.pop(2)
+    print(len(a))
+    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
+    a = input('wait')
+    scrap(driver)
 
         
