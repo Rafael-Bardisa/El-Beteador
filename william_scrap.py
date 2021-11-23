@@ -55,7 +55,7 @@ def scrap(driver):
         else:
             name = data[0][0]
             surname = apellido(data[1])
-            nombre = surname + " " + name
+            nombre = str(surname) + " " + str(name)
             truenames.append(nombre)
 
     #print(truenames)
@@ -82,6 +82,8 @@ def scrap(driver):
     william_dict = {}
     for i in range(len(truerwilliamnames)):
         william_dict[truerwilliamnames[i]] = [williamcuotas[i*2], williamcuotas[(i*2) + 1]]
+
+    #print(william_dict)
     return william_dict
         
 if __name__ == '__main__':
