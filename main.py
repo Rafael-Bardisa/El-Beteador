@@ -7,8 +7,9 @@ import william_scrap as will # import scrapping para william hill
 import betway_scrap as bway # import scrapping para betway
 import bwin_scrap as bwin # import scrapping para bwin
 
-URLs = ["https://sports.williamhill.es/betting/es-es/en-directo/tenis",
-        "https://betway.es/es/sports/sct/tennis/challenger"]
+URLs = ["https://sports.williamhill.es/betting/es-es/tenis/partidos",
+        "https://betway.es/es/sports/sct/tennis/challenger",
+        "https://sports.bwin.es/es/sports/tenis-5/apuestas"]
 
 
 # comprueba si vale la pena apostar si hay cuotas a, b
@@ -57,7 +58,7 @@ def BETI(driver):
 
 
     # TODO que casas usamos
-    nombre_casas = ['william', 'betway']
+    nombre_casas = ['william', 'betway', 'bwin']
 
     # llevar a los drivers a las casas
     action = '0'  # valor inicial random
@@ -74,13 +75,15 @@ def BETI(driver):
         casas_cuota_2 = []
 
         # TODO scrapea las paginas
-
         # asume data: {partido: [cuota 1, cuota 2]}
         driver.switch_to.window(driver.window_handles[0])
         data = will.scrap(driver)
         casas.append(data)
         driver.switch_to.window(driver.window_handles[1])
         data = bway.scrap(driver)
+        casas.append(data)
+        driver.switch_to.window(driver.window_handles[2])
+        data = bwin.scrap(driver)
         casas.append(data)
 
         # unir datas en dataframe
@@ -101,6 +104,7 @@ def BETI(driver):
 
         data_final = big_merge(mejor_cuota_1, mejor_cuota_2, mejor_casa_1, mejor_casa_2)
         data_final['z'] = z(data_final['cuota 1'], data_final['cuota 2'])
+        data_final.to_excel('beteado.xlsx', engine = 'xlsxwriter')
         # printear oportunidades
         print(data_final.sort_values( by ='z', ascending = False).head(10))
 
@@ -108,4 +112,3 @@ def BETI(driver):
         action = input(action)
         if action == '0':
             return 0
-

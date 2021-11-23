@@ -1,6 +1,5 @@
 from selenium import webdriver
 import pandas
-
 import chromedriver
 
 #driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
@@ -60,3 +59,9 @@ def scrap(driver):
     for i in range(len(truebetwaynames)):
         betway_dict[truebetwaynames[i]] = [betwaycuotas[i * 2], betwaycuotas[(i * 2) + 1]]
     return betway_dict
+
+
+if __name__ == '__main__':
+        driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
+        a = input('wait')
+        scrap(driver)
