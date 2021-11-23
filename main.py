@@ -79,9 +79,11 @@ def BETI(driver):
         driver.switch_to.window(driver.window_handles[0])
         data = will.scrap(driver)
         casas.append(data)
+
         driver.switch_to.window(driver.window_handles[1])
         data = bway.scrap(driver)
         casas.append(data)
+
         driver.switch_to.window(driver.window_handles[2])
         data = bwin.scrap(driver)
         casas.append(data)
@@ -112,3 +114,7 @@ def BETI(driver):
         action = input(action)
         if action == '0':
             return 0
+
+
+
+
