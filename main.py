@@ -58,7 +58,7 @@ def BETI(driver):
 
 
     # TODO que casas usamos
-    nombre_casas = ['william', 'betway', 'bwin']
+    nombre_casas = ['william', 'bwin']
 
     # llevar a los drivers a las casas
     action = '0'  # valor inicial random
@@ -80,11 +80,11 @@ def BETI(driver):
         data = will.scrap(driver)
         casas.append(data)
 
-        driver.switch_to.window(driver.window_handles[1])
-        data = bway.scrap(driver)
-        casas.append(data)
+        #driver.switch_to.window(driver.window_handles[1])
+        #data = bway.scrap(driver)
+        #casas.append(data)
 
-        driver.switch_to.window(driver.window_handles[2])
+        driver.switch_to.window(driver.window_handles[1])
         data = bwin.scrap(driver)
         casas.append(data)
 
@@ -106,7 +106,7 @@ def BETI(driver):
 
         data_final = big_merge(mejor_cuota_1, mejor_cuota_2, mejor_casa_1, mejor_casa_2)
         data_final['z'] = z(data_final['cuota 1'], data_final['cuota 2'])
-        data_final.to_excel('beteado.xlsx', engine = 'xlsxwriter')
+        #data_final.to_excel('beteado.xlsx', engine = 'xlsxwriter')
         # printear oportunidades
         print(data_final.sort_values( by ='z', ascending = False).head(10))
 

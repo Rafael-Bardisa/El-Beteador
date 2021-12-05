@@ -15,17 +15,21 @@ def scrap (driver):
     bwinnames = []
     for i in range(len(bwinmatch) * 2):
         match = bwinmatch[i // 2].text.split('\n')
-        if i % 2 == 0:
-            bwincuotas.append(match[(len(match) - 2)])
-            bwinnames.append(match[0])
-        else:
-            bwincuotas.append(match[(len(match) - 1)])
-            bwinnames.append(match[1])
+        if ('/' not in match[0]):
+            if i % 2 == 0:
+                bwincuotas.append(match[(len(match) - 2)])
+                bwinnames.append(match[0])
+            else:
+                bwincuotas.append(match[(len(match) - 1)])
+                bwinnames.append(match[1])
+
+    for i in range(len(bwincuotas)):
         # convierte los elementos de las cuotas a numeros
         bwincuotas[i] = pandas.to_numeric(bwincuotas[i])
 
-    print(bwincuotas)
+    #print(bwincuotas)
     print(bwinnames)
+    #print(len(bwincuotas))
     truebwinnames = []
     for elem in bwinnames:
         fullname = elem.split()
@@ -38,16 +42,20 @@ def scrap (driver):
             surname = fullname[1]
         truebwinnames.append(surname + " " + name)
 
-    print(truebwinnames)
+    truerbwinnames = []
+    for i in range(len(truebwinnames)//2):
+        truerbwinnames.append(truebwinnames[i*2] + " " + truebwinnames[i*2 + 1])
 
+    #print(truerbwinnames)
+    #print(len(truerbwinnames))
     # crea el diccionario magico que usa el main para crear la dataframe final
     bwin_dict = {}
-    for i in range(len(truebwinnames)):
-        bwin_dict[truebwinnames[i]] = [bwincuotas[i * 2], bwincuotas[(i * 2) + 1]]
+    for i in range(len(truerbwinnames)):
+        bwin_dict[truerbwinnames[i]] = [bwincuotas[i * 2], bwincuotas[(i * 2) + 1]]
     return bwin_dict
 
 if __name__ == '__main__':
-        driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
-        a = input('wait')
-        scrap(driver)
+    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
+    a = input('wait')
+    print(scrap(driver))
         

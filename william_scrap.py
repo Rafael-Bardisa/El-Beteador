@@ -40,17 +40,15 @@ def scrap(driver):
         names = truewilliamnames[i].split(' v ')
         splitnames.append(names[0])
         splitnames.append(names[1])
-
     # reformatea los nombres como apellido, inicial del nombre
     truenames = []
     drop_idx = []
-    #print(splitnames)
+
     for i in range(len(splitnames)):
-        if splitnames[i][0].isnumeric():#ignora la fecha si existe
+        if splitnames[i][0].isnumeric():#ignora la fecha si existe (dd mmm)
             splitnames[i] = splitnames[i].split('\n')[1]
         data = splitnames[i].split(" ")
         if (len(data) == 1):    #si es doble, skippea
-            #lmaol
             drop_idx.append(i)
         else:
             name = data[0][0]
@@ -58,41 +56,23 @@ def scrap(driver):
             nombre = str(surname) + " " + str(name)
             truenames.append(nombre)
 
-    #print(truenames)
-    #print(len(truenames))
-    #print(len(drop_idx))
-    #print(len(williamcuotas))
+    #elimina las cuotas de los dobles
     for i in range(len(drop_idx)):
         williamcuotas.pop(drop_idx[i] - i)
 
-    #print(len(williamcuotas))
-    # une los nombres para identificar el parotid
+    # une los nombres para identificar el partido
     truerwilliamnames = []
     for i in range(len(truenames)//2):
         truerwilliamnames.append(truenames[i*2] + " " + truenames[i*2 + 1])
-
-
-
-    #print(repr(truewilliamnames[0]))
-    #print(len(truewilliamnames))
-    #print(splitnames)
-    print(len(truerwilliamnames))
 
     # crea el diccionario magico que usa el main para crear la dataframe final
     william_dict = {}
     for i in range(len(truerwilliamnames)):
         william_dict[truerwilliamnames[i]] = [williamcuotas[i*2], williamcuotas[(i*2) + 1]]
 
-    #print(william_dict)
     return william_dict
         
 if __name__ == '__main__':
-    a = [9,8,7,5]
-    print(len(a))
-    a.pop(2)
-    print(len(a))
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
     a = input('wait')
-    scrap(driver)
-
-        
+    print(scrap(driver))
