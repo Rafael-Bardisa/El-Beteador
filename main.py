@@ -7,9 +7,20 @@ import william_scrap as will # import scrapping para william hill
 import betway_scrap as bway # import scrapping para betway
 import bwin_scrap as bwin # import scrapping para bwin
 
-URLs = ["https://sports.williamhill.es/betting/es-es/tenis/partidos",
-        "https://betway.es/es/sports/sct/tennis/challenger",
-        "https://sports.bwin.es/es/sports/tenis-5/apuestas"]
+# TODO que casas usamos
+nombre_casas = ['bwin', 'william', "betway"]
+modulos = [bwin, will, bway]
+
+URLs = ["https://sports.bwin.es/es/sports/tenis-5/apuestas",
+        "https://sports.williamhill.es/betting/es-es/tenis/partidos",
+        "https://betway.es/es/sports/sct/tennis/challenger"]
+
+#inicia ventanas automaticamente para que los handles esten en orden:
+def init_browser(driver):
+    n_casas = len(URLs) - 1
+    for i in range(n_casas):
+        driver.switch_to.window(driver.window_handles[i])
+        driver.execute_script("window.open()")
 
 
 # comprueba si vale la pena apostar si hay cuotas a, b
@@ -55,16 +66,12 @@ def big_merge(cuota_1, cuota_2, casa_1, casa_2):
 
 
 def BETI(driver):
-
-
-    # TODO que casas usamos
-    nombre_casas = ['william', 'bwin']
-
     # llevar a los drivers a las casas
     action = '0'  # valor inicial random
     #bet.go(driver)
     print('ELIMINA LOS DOBLES')
     print('URLs por orden:\n' + str(URLs))
+    init_browser(driver)
     ejecutar = input('Enter cuando las pestañas:')
     # loop principal del programa
     while 1:
@@ -76,17 +83,15 @@ def BETI(driver):
 
         # TODO scrapea las paginas
         # asume data: {partido: [cuota 1, cuota 2]}
-        driver.switch_to.window(driver.window_handles[0])
-        data = will.scrap(driver)
-        casas.append(data)
 
-        #driver.switch_to.window(driver.window_handles[1])
-        #data = bway.scrap(driver)
+        #driver.switch_to.window(driver.window_handles[0])
+        #data = will.scrap(driver)
         #casas.append(data)
 
-        driver.switch_to.window(driver.window_handles[1])
-        data = bwin.scrap(driver)
-        casas.append(data)
+        for i in range(len(URLs)):
+            driver.switch_to.window(driver.window_handles[i])
+            data = modulos[i].scrap(driver)
+            casas.append(data)
 
         # unir datas en dataframe
         for i in range(0, len(casas)):
@@ -106,7 +111,6 @@ def BETI(driver):
 
         data_final = big_merge(mejor_cuota_1, mejor_cuota_2, mejor_casa_1, mejor_casa_2)
         data_final['z'] = z(data_final['cuota 1'], data_final['cuota 2'])
-        #data_final.to_excel('beteado.xlsx', engine = 'xlsxwriter')
         # printear oportunidades
         print(data_final.sort_values( by ='z', ascending = False).head(10))
 

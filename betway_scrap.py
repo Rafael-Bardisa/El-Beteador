@@ -63,5 +63,6 @@ def scrap(driver):
 
 if __name__ == '__main__':
         driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
+        #driver.get("https://betway.es/es/sports/sct/tennis/challenger")
         a = input('wait')
-        scrap(driver)
+        print(scrap(driver))

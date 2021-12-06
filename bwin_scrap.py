@@ -28,7 +28,7 @@ def scrap (driver):
         bwincuotas[i] = pandas.to_numeric(bwincuotas[i])
 
     #print(bwincuotas)
-    print(bwinnames)
+    #print(bwinnames)
     #print(len(bwincuotas))
     truebwinnames = []
     for elem in bwinnames:
@@ -56,6 +56,7 @@ def scrap (driver):
 
 if __name__ == '__main__':
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
+    #driver.get("https://sports.bwin.es/es/sports/tenis-5/apuestas")
     a = input('wait')
     print(scrap(driver))
         

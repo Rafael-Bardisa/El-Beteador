@@ -64,7 +64,8 @@ def scrap(driver):
     truerwilliamnames = []
     for i in range(len(truenames)//2):
         truerwilliamnames.append(truenames[i*2] + " " + truenames[i*2 + 1])
-
+    #print(len(truerwilliamnames))
+    #print(len(williamcuotas))
     # crea el diccionario magico que usa el main para crear la dataframe final
     william_dict = {}
     for i in range(len(truerwilliamnames)):
@@ -74,5 +75,6 @@ def scrap(driver):
         
 if __name__ == '__main__':
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
+    #driver.get("https://sports.williamhill.es/betting/es-es/tenis/partidos")
     a = input('wait')
     print(scrap(driver))
