@@ -105,20 +105,16 @@ def big_scrap(driver):
 
 
 def BETI(driver):
-    # llevar a los drivers a las casas
-    action = '0'  # valor inicial random
-    # bet.go(driver)
-    print('ELIMINA LOS DOBLES')
-    print(f'URLs por orden:\n{str(URLs)}')
+    print(f'ELIMINA LOS DOBLES\nURLs por orden:\n{str(URLs)}')
+
     init_browser(driver)    # abre las paginas en orden
-    dineros = input('Enter cuando las pestañas: ')
+    dineros = input('Enter bet cuando las pestañas: ')
+
     # loop principal del programa
-    while 1:
+    while dineros >= 0:
         data_final = big_scrap(driver)
 
         # TODO calcular margenes para apostar usando dineros y data final
 
-        # volver a ejecutar loop o salir (0)
-        action = input(action)
-        if action == '0':
-            return 0
+        # volver a ejecutar loop o salir (<0)
+        dineros = input('nueva bet:')
