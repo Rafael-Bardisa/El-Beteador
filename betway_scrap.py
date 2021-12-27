@@ -1,12 +1,18 @@
 from selenium import webdriver
 import pandas
-import chromedriver
 
-#driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
-#betway = "https://betway.es/es/sports/sct/tennis/challenger"
+
+# driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
+
+def test():
+    url = "https://betway.es/es/sports/sct/tennis/challenger"
+    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
+                              chrome_options=chromedriver.camo())
+    input(f'{url = }')
+    print(scrap(driver))
+
 
 def scrap(driver):
-
     betwaycuotas = driver.find_elements_by_class_name("oddsDisplay")
     betwaynames = driver.find_elements_by_class_name("scoreboardInfoNames")
 
@@ -29,18 +35,18 @@ def scrap(driver):
     truenames = []
     for i in range(len(splitnames)):
         data = splitnames[i].split(" ")
-        if data[0][0] == '√':   #un clasico
+        if data[0][0] == '√':  # un clasico
             name = data[1][0]
             surname = data[2]
         else:
             name = data[0][0]
             surname = data[1]
-        nombre = surname + " " + name
+        nombre = f'{surname} {name}'
         truenames.append(nombre)
 
     # une los nombres para identificar el partido
     for i in range(len(truenames) // 2):
-        truebetwaynames[i] = truenames[i * 2] + " " + truenames[i * 2 + 1]
+        truebetwaynames[i] = f'{truenames[i * 2]} {truenames[i * 2 + 1]}'
 
     # convierte los elementos de las cuotas a numeros
     for i in range(len(betwaycuotas)):
@@ -61,8 +67,7 @@ def scrap(driver):
     return betway_dict
 
 
-if __name__ == '__main__':
-        driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
-        #driver.get("https://betway.es/es/sports/sct/tennis/challenger")
-        a = input('wait')
-        print(scrap(driver))
+if __name__ == '__main__':  # testea solo el scrapper de betway
+    import chromedriver
+    test()
+    input('exit')

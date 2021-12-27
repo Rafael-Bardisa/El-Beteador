@@ -3,9 +3,9 @@ import pandas as pd
 # import time
 # import sys
 import bet365_scrap as bet  # import scrapping para bet365
-import william_scrap as will # import scrapping para william hill
-import betway_scrap as bway # import scrapping para betway
-import bwin_scrap as bwin # import scrapping para bwin
+import william_scrap as will  # import scrapping para william hill
+import betway_scrap as bway  # import scrapping para betway
+import bwin_scrap as bwin  # import scrapping para bwin
 
 # TODO que casas usamos
 nombre_casas = ['bwin', 'william', "betway"]
@@ -15,7 +15,8 @@ URLs = ["https://sports.bwin.es/es/sports/tenis-5/apuestas",
         "https://sports.williamhill.es/betting/es-es/tenis/partidos",
         "https://betway.es/es/sports/sct/tennis/challenger"]
 
-#inicia ventanas automaticamente para que los handles esten en orden:
+
+# inicia ventanas automaticamente para que los handles esten en orden:
 def init_browser(driver):
     n_casas = len(URLs) - 1
     for i in range(n_casas):
@@ -41,7 +42,7 @@ def split_cuotas(dict_cuotas):
 
 
 # dataframe de una sola cuota, hay que pasarle listado de nombres de casas en el orden que las scrapeamos
-def build_dataframe(casas_cuota, nombre_casas):
+def build_dataframe(casas_cuota):
     cuota_frame = pd.DataFrame()
     for casa in casas_cuota:  # por cada data de cada casa
         series = pd.Series(casa)  # convierte la data a series
@@ -68,11 +69,11 @@ def big_merge(cuota_1, cuota_2, casa_1, casa_2):
 def BETI(driver):
     # llevar a los drivers a las casas
     action = '0'  # valor inicial random
-    #bet.go(driver)
+    # bet.go(driver)
     print('ELIMINA LOS DOBLES')
-    print('URLs por orden:\n' + str(URLs))
+    print(f'URLs por orden:\n{str(URLs)}')
     init_browser(driver)
-    ejecutar = input('Enter cuando las pestañas:')
+    dineros = input('Enter cuando las pestañas: ')
     # loop principal del programa
     while 1:
 
@@ -84,9 +85,9 @@ def BETI(driver):
         # TODO scrapea las paginas
         # asume data: {partido: [cuota 1, cuota 2]}
 
-        #driver.switch_to.window(driver.window_handles[0])
-        #data = will.scrap(driver)
-        #casas.append(data)
+        # driver.switch_to.window(driver.window_handles[0])
+        # data = will.scrap(driver)
+        # casas.append(data)
 
         for i in range(len(URLs)):
             driver.switch_to.window(driver.window_handles[i])
@@ -99,8 +100,8 @@ def BETI(driver):
             casas_cuota_1.append(cuota_1)
             casas_cuota_2.append(cuota_2)
 
-        data_cuota_1 = build_dataframe(casas_cuota_1, nombre_casas)
-        data_cuota_2 = build_dataframe(casas_cuota_2, nombre_casas)
+        data_cuota_1 = build_dataframe(casas_cuota_1)
+        data_cuota_2 = build_dataframe(casas_cuota_2)
 
         # columnas para saber si hay arbitraje
         mejor_cuota_1 = data_cuota_1.max(axis=1, skipna=True)  # mejor cuota 1 para cada partido
@@ -112,13 +113,9 @@ def BETI(driver):
         data_final = big_merge(mejor_cuota_1, mejor_cuota_2, mejor_casa_1, mejor_casa_2)
         data_final['z'] = z(data_final['cuota 1'], data_final['cuota 2'])
         # printear oportunidades
-        print(data_final.sort_values( by ='z', ascending = False).head(10))
+        print(data_final.sort_values(by='z', ascending=False).head(10))
 
         # volver a ejecutar loop o salir (0)
         action = input(action)
         if action == '0':
             return 0
-
-
-
-
