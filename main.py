@@ -6,6 +6,7 @@ import bet365_scrap as bet  # import scrapping para bet365
 import william_scrap as will  # import scrapping para william hill
 import betway_scrap as bway  # import scrapping para betway
 import bwin_scrap as bwin  # import scrapping para bwin
+# TODO import cProfile y hacer benchmark para acelerar el codigo
 
 # TODO que casas usamos
 nombre_casas = ['bwin', 'william', "betway"]
@@ -66,54 +67,56 @@ def big_merge(cuota_1, cuota_2, casa_1, casa_2):
     return data_summary
 
 
+def big_scrap(driver):
+    casas = []  # lista vacia donde guardar los datos de las casas
+    # listas para guardar dicts de {partido: una cuota}
+    casas_cuota_1 = []
+    casas_cuota_2 = []
+
+    # TODO scrapea las paginas
+    # asume data: {partido: [cuota 1, cuota 2]}
+
+    for i in range(len(URLs)):
+        driver.switch_to.window(driver.window_handles[i])
+        data = modulos[i].scrap(driver)
+        casas.append(data)
+
+    # unir datas en dataframe
+    for i in range(0, len(casas)):
+        cuota_1, cuota_2 = split_cuotas(casas[i])
+        casas_cuota_1.append(cuota_1)
+        casas_cuota_2.append(cuota_2)
+
+    data_cuota_1 = build_dataframe(casas_cuota_1)
+    data_cuota_2 = build_dataframe(casas_cuota_2)
+
+    # columnas para saber si hay arbitraje
+    mejor_cuota_1 = data_cuota_1.max(axis=1, skipna=True)  # mejor cuota 1 para cada partido
+    mejor_casa_1 = data_cuota_1.idxmax(axis=1, skipna=True)  # que casa ofrece la mejor cuota
+
+    mejor_cuota_2 = data_cuota_2.max(axis=1, skipna=True)  # mejor cuota 2 para cada partido
+    mejor_casa_2 = data_cuota_2.idxmax(axis=1, skipna=True)  # que casa ofrece la mejor cuota
+
+    data_final = big_merge(mejor_cuota_1, mejor_cuota_2, mejor_casa_1, mejor_casa_2)
+    data_final['z'] = z(data_final['cuota 1'], data_final['cuota 2'])
+    # printear oportunidades
+    print(data_final.sort_values(by='z', ascending=False).head(10))
+    return data_final
+
+
 def BETI(driver):
     # llevar a los drivers a las casas
     action = '0'  # valor inicial random
     # bet.go(driver)
     print('ELIMINA LOS DOBLES')
     print(f'URLs por orden:\n{str(URLs)}')
-    init_browser(driver)
+    init_browser(driver)    # abre las paginas en orden
     dineros = input('Enter cuando las pestañas: ')
     # loop principal del programa
     while 1:
+        data_final = big_scrap(driver)
 
-        casas = []  # lista vacia donde guardar los datos de las casas
-        # listas para guardar dicts de {partido: una cuota}
-        casas_cuota_1 = []
-        casas_cuota_2 = []
-
-        # TODO scrapea las paginas
-        # asume data: {partido: [cuota 1, cuota 2]}
-
-        # driver.switch_to.window(driver.window_handles[0])
-        # data = will.scrap(driver)
-        # casas.append(data)
-
-        for i in range(len(URLs)):
-            driver.switch_to.window(driver.window_handles[i])
-            data = modulos[i].scrap(driver)
-            casas.append(data)
-
-        # unir datas en dataframe
-        for i in range(0, len(casas)):
-            cuota_1, cuota_2 = split_cuotas(casas[i])
-            casas_cuota_1.append(cuota_1)
-            casas_cuota_2.append(cuota_2)
-
-        data_cuota_1 = build_dataframe(casas_cuota_1)
-        data_cuota_2 = build_dataframe(casas_cuota_2)
-
-        # columnas para saber si hay arbitraje
-        mejor_cuota_1 = data_cuota_1.max(axis=1, skipna=True)  # mejor cuota 1 para cada partido
-        mejor_casa_1 = data_cuota_1.idxmax(axis=1, skipna=True)  # que casa ofrece la mejor cuota
-
-        mejor_cuota_2 = data_cuota_2.max(axis=1, skipna=True)  # mejor cuota 2 para cada partido
-        mejor_casa_2 = data_cuota_2.idxmax(axis=1, skipna=True)  # que casa ofrece la mejor cuota
-
-        data_final = big_merge(mejor_cuota_1, mejor_cuota_2, mejor_casa_1, mejor_casa_2)
-        data_final['z'] = z(data_final['cuota 1'], data_final['cuota 2'])
-        # printear oportunidades
-        print(data_final.sort_values(by='z', ascending=False).head(10))
+        # TODO calcular margenes para apostar usando dineros y data final
 
         # volver a ejecutar loop o salir (0)
         action = input(action)
