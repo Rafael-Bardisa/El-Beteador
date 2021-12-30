@@ -12,7 +12,7 @@ def test():
     input(f'{url = !s}')
     print(scrap(driver))
 
-# TODO testear cuando haya partidos disponibles jajaja
+# TODO cuando hay destacados coge containers que no son de partidos. Se arregla eligiendo un unico torneo pero eso reduce mucho lo que cogemos
 def scrap(driver):
     betway_cuotas = driver.find_elements(By.CLASS_NAME, "oddsDisplay")
     betway_names = driver.find_elements(By.CLASS_NAME, "scoreboardInfoNames")
@@ -31,7 +31,7 @@ def scrap(driver):
     #    else:
     #        betway_cuotas[i] = pandas.to_numeric(cuota)
 
-    betway_cuotas[:] = [0.5 if cuota == '-' else pandas.to_numeric(cuota) for cuota in betway_cuotas]
+    betway_cuotas[:] = [pandas.to_numeric(cuota.text.replace(',','.')) if cuota != '-' else 0.5 for cuota in betway_cuotas]
 
     # divide el nombre de la match en los dos jugadores
     split_names = []

@@ -76,14 +76,20 @@ def big_scrap(driver):
     # TODO scrapea las paginas
     # asume data: {partido: [cuota 1, cuota 2]}
 
-    for i in range(len(URLs)):
-        driver.switch_to.window(driver.window_handles[i])
-        data = modulos[i].scrap(driver)
+    # TODO quitar el range, necesita testear
+    # for i in range(len(URLs)):
+    #    driver.switch_to.window(driver.window_handles[i])
+    #    data = modulos[i].scrap(driver)
+    #    casas.append(data)
+
+    for idx, modulo in enumerate(modulos):
+        driver.switch_to.window(driver.window_handles[idx])
+        data = modulo.scrap(driver)
         casas.append(data)
 
     # unir datas en dataframe
-    for i in range(0, len(casas)):
-        cuota_1, cuota_2 = split_cuotas(casas[i])
+    for casa in casas:
+        cuota_1, cuota_2 = split_cuotas(casa)
         casas_cuota_1.append(cuota_1)
         casas_cuota_2.append(cuota_2)
 
@@ -108,7 +114,7 @@ def BETI(driver):
     print(f'ELIMINA LOS DOBLES\nURLs por orden:\n{str(URLs)}')
 
     init_browser(driver)    # abre las paginas en orden
-    dineros = input('Enter bet cuando las pestañas: ')
+    dineros = int(input('Enter bet cuando las pestañas: '))
 
     # loop principal del programa
     while dineros >= 0:
