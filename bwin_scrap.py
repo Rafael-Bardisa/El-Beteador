@@ -8,7 +8,7 @@ def test():
     url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
                               chrome_options=chromedriver.camo())
-    input(f'{url = }')
+    input(f'{url = !s}')
     print(scrap(driver))
 
 

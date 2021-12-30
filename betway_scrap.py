@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 import pandas
 
 
@@ -8,33 +9,43 @@ def test():
     url = "https://betway.es/es/sports/sct/tennis/challenger"
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
                               chrome_options=chromedriver.camo())
-    input(f'{url = }')
+    input(f'{url = !s}')
     print(scrap(driver))
 
-
+# TODO testear cuando haya partidos disponibles jajaja
 def scrap(driver):
-    betwaycuotas = driver.find_elements_by_class_name("oddsDisplay")
-    betwaynames = driver.find_elements_by_class_name("scoreboardInfoNames")
+    betway_cuotas = driver.find_elements(By.CLASS_NAME, "oddsDisplay")
+    betway_names = driver.find_elements(By.CLASS_NAME, "scoreboardInfoNames")
 
     # quita el texto garbage y deja los nombres de los broskis del tenis
-    truebetwaynames = []
-    for i in range(len(betwaynames)):
-        betway = betwaynames[i].text
-        truebetwaynames.append(betway)
+    string_betway_names = [name.text for name in betway_names]
+    # for i in range(len(betwaynames)):
+    #    betway = betwaynames[i].text
+    #    truebetwaynames.append(betway)
+
+    # convierte los elementos de las cuotas a numeros
+    # for i in range(len(betway_cuotas)):
+    #    cuota = betway_cuotas[i].text.replace(',', '.')
+    #    if cuota == '-':
+    #        betway_cuotas[i] = 0.5
+    #    else:
+    #        betway_cuotas[i] = pandas.to_numeric(cuota)
+
+    betway_cuotas[:] = [0.5 if cuota == '-' else pandas.to_numeric(cuota) for cuota in betway_cuotas]
 
     # divide el nombre de la match en los dos jugadores
-    splitnames = []
-    for i in range(len(truebetwaynames)):
-        names = truebetwaynames[i].split(' -')
-        splitnames.append(names[0])
-        splitnames.append(names[1])
+    split_names = []
+    for bet_name in string_betway_names:
+        names = bet_name.split(' -')
+        split_names.append(names[0])
+        split_names.append(names[1])
 
     # print(repr(splitnames[0]))
 
     # reformatea los nombres como apellido, inicial del nombre
-    truenames = []
-    for i in range(len(splitnames)):
-        data = splitnames[i].split(" ")
+    true_names = []
+    for split_name in split_names:
+        data = split_name.split(" ")
         if data[0][0] == '√':  # un clasico
             name = data[1][0]
             surname = data[2]
@@ -42,19 +53,12 @@ def scrap(driver):
             name = data[0][0]
             surname = data[1]
         nombre = f'{surname} {name}'
-        truenames.append(nombre)
+        true_names.append(nombre)
 
     # une los nombres para identificar el partido
-    for i in range(len(truenames) // 2):
-        truebetwaynames[i] = f'{truenames[i * 2]} {truenames[i * 2 + 1]}'
-
-    # convierte los elementos de las cuotas a numeros
-    for i in range(len(betwaycuotas)):
-        cuota = betwaycuotas[i].text.replace(',', '.')
-        if cuota == '-':
-            betwaycuotas[i] = 0.5
-        else:
-            betwaycuotas[i] = pandas.to_numeric(cuota)
+    true_betway_names = []
+    for local, visitor in zip(true_names[::2], true_names[1::2]):
+        true_betway_names.append(f'{local} {visitor}')
 
     # print(repr(truewilliamnames[0]))
     # print(len(truewilliamnames))
@@ -62,12 +66,17 @@ def scrap(driver):
 
     # crea el diccionario magico que usa el main para crear la dataframe final
     betway_dict = {}
-    for i in range(len(truebetwaynames)):
-        betway_dict[truebetwaynames[i]] = [betwaycuotas[i * 2], betwaycuotas[(i * 2) + 1]]
+    # for i in range(len(string_betway_names)):
+    #    betway_dict[string_betway_names[i]] = [betway_cuotas[i * 2], betway_cuotas[(i * 2) + 1]]
+
+    for name, cuotas in zip(true_betway_names, map(list, zip(betway_cuotas[::2], betway_cuotas[1::2]))):
+        betway_dict[name] = cuotas
+
     return betway_dict
 
 
 if __name__ == '__main__':  # testea solo el scrapper de betway
     import chromedriver
+
     test()
     input('exit')

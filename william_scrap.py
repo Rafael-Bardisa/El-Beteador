@@ -11,7 +11,7 @@ def test():
     url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
                               chrome_options=chromedriver.camo())
-    input(f'{url = }')
+    input(f'{url = !s}')
     print(scrap(driver))
 
 
