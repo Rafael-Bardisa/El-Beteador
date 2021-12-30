@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 import pandas
 
 
@@ -11,33 +12,43 @@ def test():
     input(f'{url = !s}')
     print(scrap(driver))
 
-
+# TODO mas tests para asegurarse de que es robusto
 def scrap(driver):
-    bwinmatch = driver.find_elements_by_class_name("grid-event-wrapper")
+    bwin_matches = driver.find_elements(By.CLASS_NAME, "grid-event-wrapper")
     # bwinmatch[0].text
 
     # Extrae cuotas y nombres
-    bwincuotas = []
-    bwinnames = []
-    for i in range(len(bwinmatch) * 2):
-        match = bwinmatch[i // 2].text.split('\n')
+    bwin_cuotas = []
+    bwin_names = []
+    for i in range(len(bwin_matches) * 2):
+        match = bwin_matches[i // 2].text.split('\n')
         if '/' not in match[0]:
             if i % 2 == 0:
-                bwincuotas.append(match[(len(match) - 2)])
-                bwinnames.append(match[0])
+                bwin_cuotas.append(match[(len(match) - 2)])
+                bwin_names.append(match[0])
             else:
-                bwincuotas.append(match[(len(match) - 1)])
-                bwinnames.append(match[1])
+                bwin_cuotas.append(match[(len(match) - 1)])
+                bwin_names.append(match[1])
 
-    for i in range(len(bwincuotas)):
-        # convierte los elementos de las cuotas a numeros
-        bwincuotas[i] = pandas.to_numeric(bwincuotas[i])
+    for bwin_match in bwin_matches:
+        match = bwin_match.text.split('\n')
+        if '/' not in match[0]:
+            bwin_cuotas.append(match[(len(match) - 2)])
+            bwin_cuotas.append(match[(len(match) - 1)])
+            bwin_names.append(match[0])
+            bwin_names.append(match[1])
+
+    #for i in range(len(bwin_cuotas)):
+    #    convierte los elementos de las cuotas a numeros
+    #    bwin_cuotas[i] = pandas.to_numeric(bwin_cuotas[i])
+
+    bwin_cuotas[:] = [pandas.to_numeric(cuota) for cuota in bwin_cuotas]
 
     # print(bwincuotas)
     # print(bwinnames)
     # print(len(bwincuotas))
-    truebwinnames = []
-    for elem in bwinnames:
+    true_bwin_names = []
+    for elem in bwin_names:
         fullname = elem.split()
         name_size = len(fullname)
 
@@ -46,18 +57,21 @@ def scrap(driver):
             surname = fullname[1][0:-3]
         else:
             surname = fullname[1]
-        truebwinnames.append(f'{surname} {name}')
+        true_bwin_names.append(f'{surname} {name}')
 
-    truerbwinnames = []
-    for i in range(len(truebwinnames) // 2):
-        truerbwinnames.append(f'{truebwinnames[i * 2]} {truebwinnames[i * 2 + 1]}')
+    truer_bwin_names = []
+    for local, visitor in zip(true_bwin_names[::2], true_bwin_names[1::2]):
+        truer_bwin_names.append(f'{local} {visitor}')
 
     # print(truerbwinnames)
     # print(len(truerbwinnames))
     # crea el diccionario magico que usa el main para crear la dataframe final
     bwin_dict = {}
-    for i in range(len(truerbwinnames)):
-        bwin_dict[truerbwinnames[i]] = [bwincuotas[i * 2], bwincuotas[(i * 2) + 1]]
+    # for i in range(len(truer_bwin_names)):
+    #    bwin_dict[truer_bwin_names[i]] = [bwin_cuotas[i * 2], bwin_cuotas[(i * 2) + 1]]
+
+    for name, cuotas in zip(truer_bwin_names, map(list, zip(bwin_cuotas[::2], bwin_cuotas[1::2]))):
+        bwin_dict[name] = cuotas
     return bwin_dict
 
 
