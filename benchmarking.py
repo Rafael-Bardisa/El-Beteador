@@ -14,6 +14,17 @@ def benchmark(func):
 
     return inner
 
+
+def cprof(func):
+    def replacement(*args, **kwargs):
+        prof = cProfile.Profile()
+        result = prof.runcall(func, *args, **kwargs)
+        prof.dump_stats(f'profiler_dumps/{func.__name__} {time.time()}')
+        return result
+
+    return replacement
+
+
 @benchmark
 def fib(n):
     return 1 if n in [1, 2] else (fib(n-1) + fib(n-2))
