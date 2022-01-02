@@ -1,12 +1,16 @@
 # from selenium import webdriver
+import time
+
 import pandas as pd
-# import time
 # import sys
 import bet365_scrap as bet  # import scrapping para bet365
 import william_scrap as will  # import scrapping para william hill
 import betway_scrap as bway  # import scrapping para betway
 import bwin_scrap as bwin  # import scrapping para bwin
-# TODO import cProfile y hacer benchmark para acelerar el codigo
+from benchmarking import benchmark
+
+
+
 
 # TODO que casas usamos
 nombre_casas = ['bwin', 'william', "betway"]

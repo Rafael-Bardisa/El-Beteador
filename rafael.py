@@ -2,6 +2,7 @@ from selenium import webdriver
 import chromedriver
 import main as beteador
 
+
 if __name__ == '__main__':
     #name = 'hola  buenas'
     #print(name.split(' '))

@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 import pandas
 import time
 
@@ -14,16 +15,18 @@ import time
 
 
 def scrap(driver):
-    cuotas = driver.find_elements_by_class_name("sgl-ParticipantOddsOnly80_Odds")
+    bet_cuotas = driver.find_elements(By.CLASS_NAME, "sgl-ParticipantOddsOnly80_Odds")
 
-    for i in range(len(cuotas)):
-        cuotas[i] = pandas.to_numeric(cuotas[i].get_attribute("innerText"))
+    # for i in range(len(cuotas)):
+    #    cuotas[i] = pandas.to_numeric(cuotas[i].get_attribute("innerText"))
+
+    bet_cuotas[:] = [pandas.to_numeric(cuota.get_attribute('innerText')) for cuota in bet_cuotas]
     
     Datos = pandas.DataFrame()    
 
-    Datos["Cuota1"] = cuotas[1:52]
+    Datos["Cuota1"] = bet_cuotas[1:52]
 
-    cuotas[102]
+    bet_cuotas[102]
     
     driver.find_element_by_xpath("/html/body/div[1]/div/div[3]/div[2]/div/div/div[2]/div[1]/div/div/div[2]/div/div[1]/div[2]/div/div[2]/div[2]").get_attribute("innerText")
 
