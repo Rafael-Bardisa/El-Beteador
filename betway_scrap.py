@@ -2,15 +2,17 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
 
+url = "https://betway.es/es/sports/sct/tennis/challenger"
+
 
 # driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
 
 def test():
-    url = "https://betway.es/es/sports/sct/tennis/challenger"
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
                               chrome_options=chromedriver.camo())
     input(f'{url = !s}')
     print(scrap(driver))
+
 
 # TODO cuando hay destacados coge containers que no son de partidos. Se arregla eligiendo un unico torneo pero eso reduce mucho lo que cogemos
 def scrap(driver):
@@ -31,7 +33,8 @@ def scrap(driver):
     #    else:
     #        betway_cuotas[i] = pandas.to_numeric(cuota)
 
-    betway_cuotas[:] = [pandas.to_numeric(cuota.text.replace(',','.')) if cuota != '-' else 0.5 for cuota in betway_cuotas]
+    betway_cuotas[:] = [pandas.to_numeric(cuota.text.replace(',', '.')) if cuota != '-' else 0.5 for cuota in
+                        betway_cuotas]
 
     # divide el nombre de la match en los dos jugadores
     split_names = []

@@ -1,10 +1,8 @@
 import time
 import cProfile
-
-
+from directoriotest import *
 # TODO import cProfile y hacer benchmark para acelerar el codigo
 def benchmark(func):
-
     def inner(*args, **kwargs):
         start = time.perf_counter()
         result = func(*args, **kwargs)
@@ -27,7 +25,39 @@ def cprof(func):
 
 @benchmark
 def fib(n):
-    return 1 if n in [1, 2] else (fib(n-1) + fib(n-2))
+    return 1 if n in [1, 2] else (fib(n - 1) + fib(n - 2))
+
+
+def col(n):
+    return (f'\33[{n}m')
+
 
 if __name__ == '__main__':
-    print(fib(20))
+    input(f'\33[9;30;43;51;21;3mlol\33[0m')
+    for i in range(100):
+        print(f'{col(i)}@: ', end=f'{col(0)}{i}\n')
+    print(f'{col(0)}')
+
+    print(f'{dir()}')
+
+    '''
+    print(fibonacci.fibo(3))
+    print(list(map(type, dir())))
+    list1 = [2,3,4]
+    list2 = [6,7,8]
+    test_str = bway.__name__.split('_')
+    dictardo = {'hola': 3, 'aaa': 4, 'lol':5}
+    droplist = input(f'Modulos: {dictardo}\ndroplist: (space separated):').split()
+    test = {key: val for key, val in dictardo.items() if key not in droplist}
+    print(f'{test}\n{dictardo}\n{test_str}\n\n\n{dict(zip(list1, list2))}')
+    mod = __import__('fibonacci')
+    print(f'{mod.__name__}, {mod.fibo(4)}, {fibonacci.fibo(5)}')
+    print(dir())
+    '''
+    '''
+    listarda = [5, 6, 7, 3, 2, 4]
+    droplist = list(map(int, input(f'droplist (space separated):').split()))
+    print(f'{droplist}')
+    lista = [listelem for idx, listelem in enumerate(listarda) if idx not in droplist]
+    print(f'lista dropeada: {lista}\nLista Og: {listarda}')
+    '''

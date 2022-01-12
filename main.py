@@ -3,22 +3,39 @@ import time
 
 import pandas as pd
 # import sys
-import bet365_scrap as bet  # import scrapping para bet365
+# TODO hacer un paquete chido para que todo se importe solo
+import bet365_scrap # import scrapping para bet365
 import william_scrap as will  # import scrapping para william hill
 import betway_scrap as bway  # import scrapping para betway
 import bwin_scrap as bwin  # import scrapping para bwin
 from benchmarking import benchmark
 
-
-
-
 # TODO que casas usamos
 nombre_casas = ['bwin', 'william', "betway"]
 modulos = [bwin, will, bway]
 
+#encuentra todos los scrappers y los pone en un diccionario {modulo: url}
+dictardo = {__import__(ref): __import__(ref).url for ref in dir() if '_scrap' in ref}
+
 URLs = ["https://sports.bwin.es/es/sports/tenis-5/apuestas",
         "https://sports.williamhill.es/betting/es-es/tenis/partidos",
         "https://betway.es/es/sports/sct/tennis/challenger"]
+
+#quita el _scrap del nombre de los archivos
+# TODO al meter los scrappers en una carpeta esto se tendra que cambiar tambien
+def format_module_name(str):
+    return str.split('_')[0]
+
+
+if __name__ == '__main__':
+    print(f'{dir()}\n{dictardo}')
+    droplist = input(f'Modulos: {dictardo}\ndroplist: (space separated):').split()
+    test = {key: val for key, val in dictardo.items() if format_module_name(key.__name__) not in droplist}
+    print(f'{test}')
+
+
+def drop_modules(droplist):
+    return {key: val for key, val in dictardo.items() if key not in droplist}
 
 
 # inicia ventanas automaticamente para que los handles esten en orden:
@@ -117,7 +134,7 @@ def big_scrap(driver):
 def BETI(driver):
     print(f'ELIMINA LOS DOBLES\nURLs por orden:\n{str(URLs)}')
 
-    init_browser(driver)    # abre las paginas en orden
+    init_browser(driver)  # abre las paginas en orden
     dineros = int(input('Enter bet cuando las pestañas: '))
 
     # loop principal del programa

@@ -4,7 +4,7 @@ import pandas
 import time
 
 #driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
-#bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
+url = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
 #codere = "https://www.codere.es/"
 
 #rip path ("/html/body/div[1]/div/div[3]/div[2]/div/div/div[1]/div/div[2]/div/div[29]")

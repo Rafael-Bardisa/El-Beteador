@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 import pandas
 
 
+url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
 # driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
 # bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
 # codere = "https://www.codere.es/"

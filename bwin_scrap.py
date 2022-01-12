@@ -2,15 +2,17 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
 
+url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
+
 
 # driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
 
 def test():
-    url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
                               chrome_options=chromedriver.camo())
     input(f'{url = !s}')
     print(scrap(driver))
+
 
 # TODO mas tests para asegurarse de que es robusto
 def scrap(driver):
@@ -38,7 +40,7 @@ def scrap(driver):
             bwin_names.append(match[0])
             bwin_names.append(match[1])
 
-    #for i in range(len(bwin_cuotas)):
+    # for i in range(len(bwin_cuotas)):
     #    convierte los elementos de las cuotas a numeros
     #    bwin_cuotas[i] = pandas.to_numeric(bwin_cuotas[i])
 
