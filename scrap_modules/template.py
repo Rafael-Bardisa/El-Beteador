@@ -1,4 +1,9 @@
-def write_template(name):   # xd moment
+def write_template(name):  # xd moment
+    """
+    Crea el template de un archivo de scraper con solo darle el nombre
+    peta si el archivo que va a crear ya existe
+    :param name: {name}_scrap.py el nombre del archivo
+    """
     with open(f'{name}_scrap.py', 'x') as scrapper:
         imports = f'from selenium import webdriver\nfrom selenium.webdriver.common.by import By\nimport pandas\n'
         url = f"# url de la pagina:\nurl = ''\n"
@@ -19,13 +24,14 @@ def main():
     reset = '\33[0m'
     blue = '\33[94m'
 
-    teststring = input(f'Enter module name\nExample: {blue}william{reset}_scrap.py\n\nModule: ')
-    try:
-        write_template(teststring)
-    except FileExistsError:
-        print(f'{red}File already exists!{reset}')
-    else:
-        print(f'{blue}File created!{reset}')
+    new_files = input(f'Enter module names (space separated)\nExample name: {blue}william{reset}_scrap.py\n\nModule: ').split()
+    for new_file in new_files:
+        try:
+            write_template(new_file)
+        except FileExistsError:  # pilla que la funcion ha petado y te lo dice en rojo
+            print(f'{red}{new_file}_scrap file already exists!{reset}')
+        else:  # pilla que la funcion NO ha petado y te lo dice en azul
+            print(f'{blue}{new_file}_scrap file created!{reset}')
 
 
 if __name__ == '__main__':
