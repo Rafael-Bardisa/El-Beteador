@@ -138,7 +138,7 @@ def BETI(driver):
     print(f'\nScrapeadores activos: {blue}{nombre_casas}\n{red}ELIMINA LOS DOBLES{reset}\nURLs por orden:\n{str(list(modulos.values()))}')
 
     init_browser(driver)  # abre las paginas en orden
-    dineros = int(input('Enter bet cuando las pestañas: '))
+    dineros = int(input(f'{yellow}Enter bet cuando las pestañas:{reset} '))
 
     # loop principal del programa
     while dineros > 0:
@@ -147,4 +147,4 @@ def BETI(driver):
         # TODO calcular margenes para apostar usando dineros y data final
 
         # volver a ejecutar loop o salir (<0)
-        dineros = int(input('nueva bet:'))
+        dineros = int(input(f'{yellow}nueva bet:{reset} '))
