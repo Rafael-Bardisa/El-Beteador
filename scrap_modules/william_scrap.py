@@ -2,18 +2,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
 
-
 url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
+
+
 # driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
 # bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
 # codere = "https://www.codere.es/"
-
-def test():
-    url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
-    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
-                              chrome_options=chromedriver.camo())
-    input(f'{url = !s}')
-    print(scrap(driver))
 
 
 # TODO arreglar los nombres para que salgan bien las colisiones
@@ -21,8 +15,14 @@ def apellido(surnamedata):  # corta str en el primer caracter no alfanumerico qu
     surname = surnamedata.split('\n')
     return surname[0]
 
+
 # TODO a veces salen cuotas nan y desaparejan las cuotas de los nombres, no se como se arregla pero bastante importante
 def scrap(driver):
+    """
+    Scrapea la pagina william y recoge las cuotas de los partidos de tenis
+    :param driver: referencia a un driver de selenium
+    :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
+    """
     william_cuotas = driver.find_elements(By.CLASS_NAME, "betbutton__odds")
     william_names = driver.find_elements(By.CLASS_NAME, "btmarket__content")
 
@@ -83,8 +83,15 @@ def scrap(driver):
     return william_dict
 
 
-if __name__ == '__main__':  # testea solo el scrapper de william
+def main():
     import chromedriver
 
-    test()
+    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
+                                chrome_options=chromedriver.camo())
+    input(f'{url = !s}')
+    print(scrap(driver))
     input('exit')
+
+
+if __name__ == '__main__':  # testea solo el scrapper de william
+    main()

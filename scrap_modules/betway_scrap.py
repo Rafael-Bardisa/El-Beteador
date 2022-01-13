@@ -7,15 +7,15 @@ url = "https://betway.es/es/sports/sct/tennis/challenger"
 
 # driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
 
-def test():
-    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
-                              chrome_options=chromedriver.camo())
-    input(f'{url = !s}')
-    print(scrap(driver))
 
-
-# TODO cuando hay destacados coge containers que no son de partidos. Se arregla eligiendo un unico torneo pero eso reduce mucho lo que cogemos
+# TODO cuando hay destacados coge containers que no son de partidos. Se arregla eligiendo un unico torneo pero eso
+#  reduce mucho lo que cogemos
 def scrap(driver):
+    """
+    Scrapea la pagina betway y recoge las cuotas de los partidos de tenis
+    :param driver: referencia a un driver de selenium
+    :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
+    """
     betway_cuotas = driver.find_elements(By.CLASS_NAME, "oddsDisplay")
     betway_names = driver.find_elements(By.CLASS_NAME, "scoreboardInfoNames")
 
@@ -78,8 +78,15 @@ def scrap(driver):
     return betway_dict
 
 
-if __name__ == '__main__':  # testea solo el scrapper de betway
+def main():
     import chromedriver
 
-    test()
+    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
+                              chrome_options=chromedriver.camo())
+    input(f'{url = !s}')
+    print(scrap(driver))
     input('exit')
+
+
+if __name__ == '__main__':  # testea solo el scrapper de betway
+    main()

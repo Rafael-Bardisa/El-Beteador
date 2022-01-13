@@ -15,6 +15,11 @@ url = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
 
 
 def scrap(driver):
+    """
+    Scrapea la pagina bet365 y recoge las cuotas de los partidos de tenis
+    :param driver: referencia a un driver de selenium
+    :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
+    """
     bet_cuotas = driver.find_elements(By.CLASS_NAME, "sgl-ParticipantOddsOnly80_Odds")
 
     # for i in range(len(cuotas)):

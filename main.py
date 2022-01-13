@@ -26,6 +26,7 @@ def format_name(string):
     return string.split('.')[1].split('_')[0]
 
 
+# para testeo, ignorable
 if __name__ == '__main__':
     print(f'{dir()}\n{globals()}')
     droplist = input(
@@ -140,7 +141,7 @@ def BETI(driver):
     dineros = int(input('Enter bet cuando las pestañas: '))
 
     # loop principal del programa
-    while dineros >= 0:
+    while dineros > 0:
         data_final = big_scrap(driver)
 
         # TODO calcular margenes para apostar usando dineros y data final

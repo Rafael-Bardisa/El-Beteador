@@ -7,15 +7,14 @@ url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
 
 # driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
 
-def test():
-    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
-                              chrome_options=chromedriver.camo())
-    input(f'{url = !s}')
-    print(scrap(driver))
-
 
 # TODO mas tests para asegurarse de que es robusto
 def scrap(driver):
+    """
+    Scrapea la pagina bwin y recoge las cuotas de los partidos de tenis
+    :param driver: referencia a un driver de selenium
+    :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
+    """
     bwin_matches = driver.find_elements(By.CLASS_NAME, "grid-event-wrapper")
     # bwinmatch[0].text
 
@@ -77,8 +76,15 @@ def scrap(driver):
     return bwin_dict
 
 
-if __name__ == '__main__':
+def main():
     import chromedriver
 
-    test()
+    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
+                              chrome_options=chromedriver.camo())
+    input(f'{url = !s}')
+    print(scrap(driver))
     input('exit')
+
+
+if __name__ == '__main__':  # testea solo el scrapper de bwin
+    main()
