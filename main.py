@@ -4,43 +4,40 @@ import time
 import pandas as pd
 # import sys
 # TODO hacer un paquete chido para que todo se importe solo
-import bet365_scrap # import scrapping para bet365
-import william_scrap as will  # import scrapping para william hill
-import betway_scrap as bway  # import scrapping para betway
-import bwin_scrap as bwin  # import scrapping para bwin
-from benchmarking import benchmark
+# mágicamente coge los archivos del subdirectorio, pycharm no detecta que se use pero es mentira
+from scrap_modules import *
 
+
+red = '\33[91m'
+yellow = '\33[93m'
+blue = '\33[94m'
+reset = '\33[0m'
+
+
+# encuentra todos los scrappers y los pone en un diccionario {modulo: url}
+dictardo = {mod: mod.url for ref, mod in globals().items() if '_scrap' in ref}
+#diccionario vacio para guardar los modulos filtrados
+modulos = {}
 # TODO que casas usamos
-nombre_casas = ['bwin', 'william', "betway"]
-modulos = [bwin, will, bway]
+nombre_casas = []
 
-#encuentra todos los scrappers y los pone en un diccionario {modulo: url}
-dictardo = {__import__(ref): __import__(ref).url for ref in dir() if '_scrap' in ref}
-
-URLs = ["https://sports.bwin.es/es/sports/tenis-5/apuestas",
-        "https://sports.williamhill.es/betting/es-es/tenis/partidos",
-        "https://betway.es/es/sports/sct/tennis/challenger"]
-
-#quita el _scrap del nombre de los archivos
-# TODO al meter los scrappers en una carpeta esto se tendra que cambiar tambien
-def format_module_name(str):
-    return str.split('_')[0]
+# quita el _scrap del nombre de los archivos
+def format_name(string):
+    return string.split('.')[1].split('_')[0]
 
 
 if __name__ == '__main__':
-    print(f'{dir()}\n{dictardo}')
-    droplist = input(f'Modulos: {dictardo}\ndroplist: (space separated):').split()
-    test = {key: val for key, val in dictardo.items() if format_module_name(key.__name__) not in droplist}
-    print(f'{test}')
-
-
-def drop_modules(droplist):
-    return {key: val for key, val in dictardo.items() if key not in droplist}
+    print(f'{dir()}\n{globals()}')
+    droplist = input(
+        f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist: (space separated):').split()
+    modulos.update({key: val for key, val in dictardo.items() if format_name(key.__name__) not in droplist})
+    nombre_casas[:] = [format_name(mod.__name__) for mod in modulos]
+    print(f'{modulos}\n{nombre_casas}\n{dictardo}')
 
 
 # inicia ventanas automaticamente para que los handles esten en orden:
 def init_browser(driver):
-    n_casas = len(URLs) - 1
+    n_casas = len(modulos) - 1
     for i in range(n_casas):
         driver.switch_to.window(driver.window_handles[i])
         driver.execute_script("window.open()")
@@ -66,12 +63,12 @@ def split_cuotas(dict_cuotas):
 # dataframe de una sola cuota, hay que pasarle listado de nombres de casas en el orden que las scrapeamos
 def build_dataframe(casas_cuota):
     cuota_frame = pd.DataFrame()
-    for casa in casas_cuota:  # por cada data de cada casa
+    for idx, casa in enumerate(casas_cuota):  # por cada data de cada casa
         series = pd.Series(casa)  # convierte la data a series
 
         # chapuza para coger el numbre de la casa
         # TODO arreglar la chapuza para que sea mas automatico
-        nombre = nombre_casas[casas_cuota.index(casa)]
+        nombre = nombre_casas[idx]
 
         # añade al dataframe, hay que hacer reassign because pandas
         cuota_frame = cuota_frame.merge(series.rename(nombre), left_index=True, right_index=True, how='outer')
@@ -132,7 +129,12 @@ def big_scrap(driver):
 
 
 def BETI(driver):
-    print(f'ELIMINA LOS DOBLES\nURLs por orden:\n{str(URLs)}')
+    droplist = input(
+        f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist: (space separated):').split()
+    modulos.update({mod: mod_url for mod, mod_url in dictardo.items() if format_name(mod.__name__) not in droplist})
+    nombre_casas[:] = [format_name(mod.__name__) for mod in modulos]
+
+    print(f'\nScrapeadores activos: {blue}{nombre_casas}\n{red}ELIMINA LOS DOBLES{reset}\nURLs por orden:\n{str(list(modulos.values()))}')
 
     init_browser(driver)  # abre las paginas en orden
     dineros = int(input('Enter bet cuando las pestañas: '))
@@ -144,4 +146,4 @@ def BETI(driver):
         # TODO calcular margenes para apostar usando dineros y data final
 
         # volver a ejecutar loop o salir (<0)
-        dineros = input('nueva bet:')
+        dineros = int(input('nueva bet:'))

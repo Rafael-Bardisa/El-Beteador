@@ -1,8 +1,17 @@
 import time
 import cProfile
-from directoriotest import *
 # TODO import cProfile y hacer benchmark para acelerar el codigo
 def benchmark(func):
+    """
+    Decorador que te mide el tiempo que tarda la funcion en ejecutarse.
+    Se puede usar como cualquier funcion, e.g. benchmark(func),
+    pero al ser un decorador la gracia que tiene es que al hacer
+    @benchmark
+    def func():...
+    cada vez que uses func() estaras usando benchmark(func)()
+    :param func: la funcion que quieres testear
+    :return: la funcion original envuelta por el codigo de testeo
+    """
     def inner(*args, **kwargs):
         start = time.perf_counter()
         result = func(*args, **kwargs)
@@ -29,7 +38,12 @@ def fib(n):
 
 
 def col(n):
-    return (f'\33[{n}m')
+    return f'\33[{n}m'
+
+dicto = {1:3, 2:4, 5:7, 8:9}
+
+def fuckoff(item):
+    dicto.pop(item)
 
 
 if __name__ == '__main__':
@@ -37,8 +51,9 @@ if __name__ == '__main__':
     for i in range(100):
         print(f'{col(i)}@: ', end=f'{col(0)}{i}\n')
     print(f'{col(0)}')
-
-    print(f'{dir()}')
+    print(f'{dicto}\n\n{globals()}')
+    fuckoff(1)
+    print(f'{dicto}')
 
     '''
     print(fibonacci.fibo(3))
