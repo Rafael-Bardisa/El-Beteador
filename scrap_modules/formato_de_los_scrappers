@@ -1,0 +1,11 @@
+Basicamente:
+- El nombre de el archivo tiene que ser {nombre_casa_apuestas}_scrap.py
+- Tiene que tener la url declarada a nivel global (url = {...} sin ningun indent) en alguna parte
+- Tiene que tener una funcion scrap(driver)
+
+El __init__.py define que son todos los archivos de la carpeta (cosas de python) para que en el main la linea:
+from scrap_modules import *
+coja lo que hay aqui automaticamente
+
+Aun no se como se crean los paquetes bien, y he leido que usar un __init__ que se actuliza solo es mala praxis,
+pero por ahora va bien y hace que el codigo se vea fino y avanzado jajajaj
