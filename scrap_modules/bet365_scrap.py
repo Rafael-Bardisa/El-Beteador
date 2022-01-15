@@ -14,7 +14,7 @@ url = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
 
 
 
-def scrap(driver):
+def scrap(driver) -> dict:
     """
     Scrapea la pagina bet365 y recoge las cuotas de los partidos de tenis
     :param driver: referencia a un driver de selenium

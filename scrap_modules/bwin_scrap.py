@@ -9,7 +9,7 @@ url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
 
 
 # TODO mas tests para asegurarse de que es robusto
-def scrap(driver):
+def scrap(driver) -> dict:
     """
     Scrapea la pagina bwin y recoge las cuotas de los partidos de tenis
     :param driver: referencia a un driver de selenium

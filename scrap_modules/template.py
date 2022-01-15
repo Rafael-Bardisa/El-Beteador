@@ -10,7 +10,7 @@ def write_template(name):  # xd moment
         formato = '{match: [cuota 1, cuota 2]}'
         docstring = f'\t"""\n\tScrapea la pagina {name} y recoge las cuotas de los partidos de tenis\n\t:param driver: referencia a un driver de selenium\n\t:return william_dict: diccionario estilo {formato}\n\t"""'
         nuldict = '{}'
-        scrap = f'def scrap(driver):\n'
+        scrap = f'def scrap(driver) -> dict:\n'
         func = f'{scrap}{docstring}\n\t# diccionario a llenar con las datas scrapeadas\n\t{name}_dict = {nuldict}\n\t\n\treturn {name}_dict\n'
         furl = "f'{url = !s}'"
         driver = f'driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",\n\t\t\t\t\t\t\t\tchrome_options=chromedriver.camo())\n\t'
@@ -23,6 +23,7 @@ def main():
     red = '\33[91m'
     reset = '\33[0m'
     blue = '\33[94m'
+
 
     new_files = input(f'Enter module names (space separated)\nExample name: {blue}william{reset}_scrap.py\n\nModule: ').split()
     for new_file in new_files:

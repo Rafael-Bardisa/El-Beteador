@@ -17,7 +17,7 @@ def apellido(surnamedata):  # corta str en el primer caracter no alfanumerico qu
 
 
 # TODO a veces salen cuotas nan y desaparejan las cuotas de los nombres, no se como se arregla pero bastante importante
-def scrap(driver):
+def scrap(driver) -> dict:
     """
     Scrapea la pagina william y recoge las cuotas de los partidos de tenis
     :param driver: referencia a un driver de selenium

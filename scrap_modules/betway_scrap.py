@@ -10,7 +10,7 @@ url = "https://betway.es/es/sports/sct/tennis/challenger"
 
 # TODO cuando hay destacados coge containers que no son de partidos. Se arregla eligiendo un unico torneo pero eso
 #  reduce mucho lo que cogemos
-def scrap(driver):
+def scrap(driver) -> dict:
     """
     Scrapea la pagina betway y recoge las cuotas de los partidos de tenis
     :param driver: referencia a un driver de selenium
