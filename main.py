@@ -87,7 +87,7 @@ def big_scrap(driver) -> pd.DataFrame:
         try:
             data = modulo.scrap(driver)
         except Exception:   # intento de evitar que el programa pete, seguramente mejorable
-            print(f'{red}Unexpected error using {modulo.__name__}!{reset} Run module in isolation to debug')
+            print(f'{red}Unexpected error using {modulo.__name__}!{reset} Check browser page or run module in isolation to debug')
             data = {}
         casas.append(data)
 
@@ -148,7 +148,7 @@ def BETI(driver):
 if __name__ == '__main__':
     print(f'{dir()}\n{globals()}')
     droplist = input(
-        f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist: (space separated):').split()
+        f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist (space separated):').split()
     modulos.update({key: val for key, val in dictardo.items() if format_name(key.__name__) not in droplist})
     nombre_casas[:] = [format_name(mod.__name__) for mod in modulos]
     print(f'{modulos}\n{nombre_casas}\n{dictardo}')
