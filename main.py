@@ -84,7 +84,11 @@ def big_scrap(driver) -> pd.DataFrame:
     # scrapea las paginas usando los modulos
     for idx, modulo in enumerate(modulos):
         driver.switch_to.window(driver.window_handles[idx])
-        data = modulo.scrap(driver)
+        try:
+            data = modulo.scrap(driver)
+        except Exception:   # intento de evitar que el programa pete, seguramente mejorable
+            print(f'{red}Unexpected error using {modulo.__name__}_scrap!{reset} Run module in isolation to debug')
+            data = {}
         casas.append(data)
 
     # unir datas en dataframe
@@ -110,6 +114,15 @@ def big_scrap(driver) -> pd.DataFrame:
     return data_final
 
 
+def enter_bet(msg):
+    try:
+        dineros = int(input(msg))
+    except ValueError:
+        print(f'{red}Invalid amount. Executing with default value: {yellow}100{reset}')
+        dineros = 100
+    return dineros
+
+
 def BETI(driver):
     beti_list = input(
         f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist: (space separated):').split()
@@ -120,7 +133,7 @@ def BETI(driver):
         f'\nScrapeadores activos: {blue}{nombre_casas}\n{red}ELIMINA LOS DOBLES{reset}\nURLs por orden:\n{str(list(modulos.values()))}')
 
     init_browser(driver)  # abre las paginas en orden
-    dineros = int(input(f'{yellow}Enter bet cuando las pestañas:{reset} '))
+    dineros = enter_bet(f'{yellow}Enter bet cuando las pestañas:{reset} ')
 
     # loop principal del programa
     while dineros > 0:
@@ -129,7 +142,7 @@ def BETI(driver):
         # TODO calcular margenes para apostar usando dineros y data final
 
         # volver a ejecutar loop o salir (<0)
-        dineros = int(input(f'{yellow}nueva bet:{reset} '))
+        dineros = enter_bet(f'{yellow}nueva bet:{reset} ')
 
 
 if __name__ == '__main__':
