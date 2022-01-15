@@ -11,7 +11,7 @@ url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
 
 
 # TODO arreglar los nombres para que salgan bien las colisiones
-def apellido(surnamedata):  # corta str en el primer caracter no alfanumerico que encuentre
+def apellido(surnamedata: str) -> str:  # corta str en el primer caracter no alfanumerico que encuentre
     surname = surnamedata.split('\n')
     return surname[0]
 
@@ -87,7 +87,7 @@ def main():
     import chromedriver
 
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
-                                chrome_options=chromedriver.camo())
+                              chrome_options=chromedriver.camo())
     input(f'{url = !s}')
     print(scrap(driver))
     input('exit')
