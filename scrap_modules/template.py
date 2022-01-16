@@ -25,7 +25,7 @@ def main():
     blue = '\33[94m'
 
 
-    new_files = input(f'Enter module names (space separated)\nExample name: {blue}william{reset}_scrap.py\n\nModule: ').split()
+    new_files = input(f'Enter module names (space separated)\nExample name: {blue}[william]{reset}_scrap.py\n\nModule: ').split()
     for new_file in new_files:
         try:
             write_template(new_file)
