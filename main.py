@@ -86,8 +86,9 @@ def big_scrap(driver) -> pd.DataFrame:
         driver.switch_to.window(driver.window_handles[idx])
         try:
             data = modulo.scrap(driver)
-        except Exception:   # intento de evitar que el programa pete, seguramente mejorable
-            print(f'{red}Unexpected error using {modulo.__name__}!{reset} Check browser page or run module in isolation to debug')
+        except Exception:  # intento de evitar que el programa pete, seguramente mejorable
+            print(
+                f'{red}Unexpected error using {modulo.__name__}!{reset} Check browser page or run module in isolation to debug')
             data = {}
         casas.append(data)
 
@@ -123,6 +124,13 @@ def enter_bet(msg):
     return dineros
 
 
+def url_display():
+    display = ''
+    for idx, url in enumerate(list(modulos.values()), start=1):
+        display = f'{display}{idx}: {url!s}\n'
+    return display
+
+
 def BETI(driver):
     beti_list = input(
         f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist: (space separated):').split()
@@ -130,7 +138,7 @@ def BETI(driver):
     nombre_casas[:] = [format_name(mod.__name__) for mod in modulos]
 
     print(
-        f'\nScrapeadores activos: {blue}{nombre_casas}\n{red}ELIMINA LOS DOBLES{reset}\nURLs por orden:\n{str(list(modulos.values()))}')
+        f'\nScrapeadores activos: {blue}{nombre_casas}\n{red}ELIMINA LOS DOBLES{reset}\nURLs por orden:\n{url_display()}')
 
     init_browser(driver)  # abre las paginas en orden
     dineros = enter_bet(f'{yellow}Enter bet cuando las pestañas:{reset} ')

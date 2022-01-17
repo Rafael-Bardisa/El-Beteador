@@ -1,19 +1,20 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
+import benchmarking
 
 url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
 
 
 # driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
 
-
+# @benchmarking.benchmark
 def extract_matches(bwin_matches):
     # Extrae cuotas y nombres
     bwin_cuotas = []
     bwin_names = []
     for bwin_match in bwin_matches:
-        match = bwin_match.text.split('\n')
+        match = bwin_match.get_attribute('innerText').split('\n')
         if '/' not in match[0]:
             bwin_cuotas.append(match[(len(match) - 2)])
             bwin_cuotas.append(match[(len(match) - 1)])
@@ -40,6 +41,7 @@ def format_name(elem):
 
 
 # TODO mas tests para asegurarse de que es robusto
+# @benchmarking.benchmark
 def scrap(driver) -> dict:
     """
     Scrapea la pagina bwin y recoge las cuotas de los partidos de tenis
