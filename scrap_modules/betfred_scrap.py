@@ -25,7 +25,7 @@ def split_match_names(names):
 
 
 
-@ benchmarking.benchmark
+
 def scrap(driver) -> dict:
 
     # El bicho magico de la velocidad
@@ -34,8 +34,8 @@ return bfredmatches.map(function (match){
     return match.innerText
 })"""
     betfredjsdata = driver.execute_script(jScript)
-    # betfredweb = driver.find_elements_by_tag_name("td")
 
+    # betfredweb = driver.find_elements_by_tag_name("td")
     # for webelem in betfredweb:
     #    betfreddata.append(webelem.text)
 

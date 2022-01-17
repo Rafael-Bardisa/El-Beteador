@@ -11,6 +11,9 @@ yellow = '\33[93m'
 blue = '\33[94m'
 reset = '\33[0m'
 
+# mas width para los dataframes
+pd.set_option('display_width', 160)
+
 # encuentra todos los scrappers y los pone en un diccionario {modulo: url}
 dictardo = {mod: mod.url for ref, mod in globals().items() if '_scrap' in ref}
 # diccionario vacio para guardar los modulos filtrados
@@ -133,7 +136,7 @@ def url_display():
 
 def BETI(driver):
     beti_list = input(
-        f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist: (space separated):').split()
+        f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist (space separated): ').split()
     modulos.update({mod: mod_url for mod, mod_url in dictardo.items() if format_name(mod.__name__) not in beti_list})
     nombre_casas[:] = [format_name(mod.__name__) for mod in modulos]
 
@@ -153,7 +156,8 @@ def BETI(driver):
         dineros = enter_bet(f'{yellow}nueva bet:{reset} ')
 
     # TODO esto solo cierra una ventana lol
-    driver.close()
+    for i in range(len(modulos)):
+        driver.close()
 
 
 if __name__ == '__main__':
