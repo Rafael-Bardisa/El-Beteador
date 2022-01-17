@@ -12,7 +12,7 @@ blue = '\33[94m'
 reset = '\33[0m'
 
 # mas width para los dataframes
-pd.set_option('display_width', 160)
+pd.set_option('display.width', 160)
 
 # encuentra todos los scrappers y los pone en un diccionario {modulo: url}
 dictardo = {mod: mod.url for ref, mod in globals().items() if '_scrap' in ref}
