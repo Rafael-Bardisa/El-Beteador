@@ -152,6 +152,9 @@ def BETI(driver):
         # volver a ejecutar loop o salir (<0)
         dineros = enter_bet(f'{yellow}nueva bet:{reset} ')
 
+    # TODO esto solo cierra una ventana lol
+    driver.close()
+
 
 if __name__ == '__main__':
     print(f'{dir()}\n{globals()}')

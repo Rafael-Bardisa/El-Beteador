@@ -11,10 +11,10 @@ def write_template(name):  # xd moment
         docstring = f'\t"""\n\tScrapea la pagina {name} y recoge las cuotas de los partidos de tenis\n\t:param driver: referencia a un driver de selenium\n\t:return william_dict: diccionario estilo {formato}\n\t"""'
         nuldict = '{}'
         scrap = f'def scrap(driver) -> dict:\n'
-        func = f'{scrap}{docstring}\n\t# diccionario a llenar con las datas scrapeadas\n\t{name}_dict = {nuldict}\n\t\n\treturn {name}_dict\n'
+        func = f'{scrap}{docstring}\n\t# diccionario a llenar con las datas scrapeadas\n\t{name}_dict = {nuldict}\n\n\treturn {name}_dict\n'
         furl = "f'{url = !s}'"
         driver = f'driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",\n\t\t\t\t\t\t\t\tchrome_options=chromedriver.camo())\n\t'
-        testfunc = f"def main(): # de testeo para comprobar que la funcion va bien\n\timport chromedriver\n\t\n\t{driver}input({furl})\n\tprint(scrap(driver))\n\tinput('exit')\n"
+        testfunc = f"def main(): # de testeo para comprobar que la funcion va bien\n\timport chromedriver\n\n\t{driver}input({furl})\n\tprint(scrap(driver))\n\tinput('exit')\n\tdriver.close()\n"
         nameguard = f"if __name__ == '__main__':  # testea solo el scrapper de william\n\tmain()"
         print(f'{imports}\n\n{url}\n\n{func}\n\n{testfunc}\n\n{nameguard}', file=scrapper)
 

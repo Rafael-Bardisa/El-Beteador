@@ -34,32 +34,29 @@ url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
 # Sets
 # Apostar ahora'    <- aqui iria cuota 1 y debajo cuota 2
 
-
+# TODO desapareja mal las matches por algun motivo
 # @benchmarking.benchmark
 def extract_matches(bwin_matches):
     # Extrae cuotas y nombres
     bwin_cuotas = []
     bwin_names = []
     for bwin_match in bwin_matches:
-        match = bwin_match.get_attribute('innerText').split('\n')
+        match = bwin_match.split('\n')
         if '/' not in match[0]:  # elimina los dobles
             handle_bwin_match(bwin_cuotas, bwin_names, match)
 
     return bwin_cuotas, bwin_names
 
-# TODO asegurar que es rubusto mamadisimo
+# TODO desapareja mal las matches por algun motivo
 def handle_bwin_match(bwin_cuotas, bwin_names, match):
-    cuotas = [] # si esto no esta aqui sale un warning porque no se entera xd
-    try:  # intenta coger los datos de la primera columna (la que ya esta bien)
-        cuotas = list(pandas.to_numeric(match[3:5]))
-    except ValueError:  # value error indica que el partido es en vivo. Los datos se encuentran en otra parte:
-        try:
-            cuotas = list(pandas.to_numeric(match[13:15]))
-        except (ValueError, IndexError):  # si no nay datos disponibles pone las cuotas a cero
-            cuotas = [0, 0]
-    finally:  # extend es como un join natural de listas, join añadiria la lista como elemento
-        bwin_cuotas.extend(cuotas)
+    try:
+        cuotas = pandas.to_numeric(match[3:5], errors='coerce')
+        if any(pandas.isna(cuotas)):
+            cuotas = pandas.to_numeric(match[13:15])
+        bwin_cuotas.extend(list(cuotas))
         bwin_names.extend(match[0:2])
+    except (ValueError, IndexError):  # si hay un error se va
+        print(f'error at {match[0]}')
 
 
 def format_name(elem):
@@ -80,15 +77,19 @@ def format_name(elem):
 
 
 # TODO mas tests para asegurarse de que es robusto
-# @benchmarking.benchmark
 def scrap(driver) -> dict:
     """
     Scrapea la pagina bwin y recoge las cuotas de los partidos de tenis
     :param driver: referencia a un driver de selenium
     :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
     """
-    bwin_matches = driver.find_elements(By.CLASS_NAME, "grid-event-wrapper")
-
+    # El bicho magico de la velocidad
+    jScript = """const bwinmatches = Array.prototype.slice.call(document.getElementsByClassName("grid-event-wrapper"))
+return bwinmatches.map(function (match){
+    return match.innerText
+})"""
+    # bwin_matches = driver.find_elements(By.CLASS_NAME, "grid-event-wrapper")
+    bwin_matches = driver.execute_script(jScript)
     # extrae la info de las matches
     bwin_cuotas, bwin_names = extract_matches(bwin_matches)
 
@@ -101,7 +102,6 @@ def scrap(driver) -> dict:
     # crea el diccionario magico que usa el main para crear la dataframe final
     bwin_dict = {name: cuotas for name, cuotas in
                  zip(truer_bwin_names, map(list, zip(bwin_cuotas[::2], bwin_cuotas[1::2])))}
-
     return bwin_dict
 
 

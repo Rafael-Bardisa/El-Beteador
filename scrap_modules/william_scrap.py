@@ -96,6 +96,7 @@ def main():
     input(f'{url = !s}')
     print(scrap(driver))
     input('exit')
+    driver.close()
 
 
 if __name__ == '__main__':  # testea solo el scrapper de william
