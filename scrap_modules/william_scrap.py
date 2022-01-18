@@ -65,14 +65,10 @@ def scrap(driver) -> dict:
     """
 
     jScript_cuotas = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("betbutton__odds"))
-    return willmatches.map(function (match){
-        return match.innerText
-    })"""
+    return willmatches.map(function (match){return match.innerText})"""
 
     jScript_names = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("btmarket__content"))
-    return willmatches.map(function (match){
-        return match.innerText
-    })"""
+    return willmatches.map(function (match){return match.innerText})"""
 
     william_cuotas = driver.execute_script(jScript_cuotas)
     william_names = driver.execute_script(jScript_names)
@@ -97,6 +93,9 @@ def scrap(driver) -> dict:
 
     return william_dict
 
+def print_dict(dict):
+    for key, val in dict.items():
+        print(f'{key}: {val}')
 
 def main():
     import chromedriver
@@ -104,7 +103,7 @@ def main():
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
                               chrome_options=chromedriver.camo())
     input(f'{url = !s}')
-    print(scrap(driver))
+    print_dict(scrap(driver))
     input('exit')
     driver.close()
 

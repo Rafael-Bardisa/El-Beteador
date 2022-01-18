@@ -61,13 +61,17 @@ def scrap(driver) -> dict:
     return betway_dict
 
 
+def print_dict(dict):
+    for key, val in dict.items():
+        print(f'{key}: {val}')
+
 def main():
     import chromedriver
 
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
                               chrome_options=chromedriver.camo())
     input(f'{url = !s}')
-    print(scrap(driver))
+    print_dict(scrap(driver))
     input('exit')
     driver.close()
 

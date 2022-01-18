@@ -51,13 +51,17 @@ return bfredmatches.map(function (match){
     return betfred_dict
 
 
-def main(): # de testeo para comprobar que la funcion va bien
+def print_dict(dict):
+    for key, val in dict.items():
+        print(f'{key}: {val}')
+
+def main():
     import chromedriver
 
     driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
-                                chrome_options=chromedriver.camo())
+                              chrome_options=chromedriver.camo())
     input(f'{url = !s}')
-    print(scrap(driver))
+    print_dict(scrap(driver))
     input('exit')
     driver.close()
 

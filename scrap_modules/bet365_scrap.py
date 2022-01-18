@@ -38,7 +38,19 @@ def scrap(driver) -> dict:
     #pillar cuotas y 1 y 2. Despues, para distinguir los 1 de los 2, recordar la posicion en la que estan los 1 en el loop; los 2 con la misma posicion son falsos.
     
     
+def print_dict(dict):
+    for key, val in dict.items():
+        print(f'{key}: {val}')
 
+def main():
+    import chromedriver
+
+    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
+                              chrome_options=chromedriver.camo())
+    input(f'{url = !s}')
+    print_dict(scrap(driver))
+    input('exit')
+    driver.close()
 
 #go(driver=driv)
 
