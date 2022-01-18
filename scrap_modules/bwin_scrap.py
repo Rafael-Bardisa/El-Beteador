@@ -56,7 +56,8 @@ def handle_bwin_match(bwin_cuotas, bwin_names, match):
         bwin_cuotas.extend(list(cuotas))
         bwin_names.extend(match[0:2])
     except (ValueError, IndexError):  # si hay un error se va
-        print(f'error at {match[0]}')
+        pass
+        # print(f'error at {match[0]}')
 
 
 def format_name(elem):

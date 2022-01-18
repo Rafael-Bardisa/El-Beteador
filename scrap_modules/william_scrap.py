@@ -56,7 +56,7 @@ def apellido(surnamedata: str) -> str:  # corta str en el primer caracter no alf
     surname = surnamedata.split('\n')
     return surname[0]
 
-@ benchmarking.benchmark
+
 def scrap(driver) -> dict:
     """
     Scrapea la pagina william y recoge las cuotas de los partidos de tenis

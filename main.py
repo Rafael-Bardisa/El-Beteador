@@ -157,6 +157,7 @@ def BETI(driver):
 
     # TODO esto solo cierra una ventana lol
     for i in range(len(modulos)):
+        driver.switch_to.window(driver.window_handles[-1])
         driver.close()
 
 
