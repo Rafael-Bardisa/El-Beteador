@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
-
+import benchmarking
 url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
 
 
@@ -14,9 +14,8 @@ def process_names(names):
     # quita el texto garbage y deja los nombres de los broskis del tenis
     true_names = []
     for elem in names:
-        william = elem.text
-        if ('Ganador' not in william) and (william != ''):
-            true_names.append(william)
+        if ('Ganador' not in elem) and ('apuestas' not in elem) and (elem != ''):
+            true_names.append(elem)
     return true_names
 
 
@@ -57,18 +56,29 @@ def apellido(surnamedata: str) -> str:  # corta str en el primer caracter no alf
     surname = surnamedata.split('\n')
     return surname[0]
 
-
+@ benchmarking.benchmark
 def scrap(driver) -> dict:
     """
     Scrapea la pagina william y recoge las cuotas de los partidos de tenis
     :param driver: referencia a un driver de selenium
     :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
     """
-    william_cuotas = driver.find_elements(By.CLASS_NAME, "betbutton__odds")
-    william_names = driver.find_elements(By.CLASS_NAME, "btmarket__content")
+
+    jScript_cuotas = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("betbutton__odds"))
+    return willmatches.map(function (match){
+        return match.innerText
+    })"""
+
+    jScript_names = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("btmarket__content"))
+    return willmatches.map(function (match){
+        return match.innerText
+    })"""
+
+    william_cuotas = driver.execute_script(jScript_cuotas)
+    william_names = driver.execute_script(jScript_names)
 
     # convierte los elementos de las cuotas a numeros
-    william_cuotas[:] = [pandas.to_numeric(cuota.text) for cuota in william_cuotas]
+    william_cuotas[:] = [pandas.to_numeric(cuota) for cuota in william_cuotas]
 
     # procesa y divide los nombres
     true_william_names = process_names(william_names)

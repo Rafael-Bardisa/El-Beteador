@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 import pandas
 import benchmarking
 
@@ -35,22 +34,14 @@ return bfredmatches.map(function (match){
 })"""
     betfredjsdata = driver.execute_script(jScript)
 
-    # betfredweb = driver.find_elements_by_tag_name("td")
-    # for webelem in betfredweb:
-    #    betfreddata.append(webelem.text)
-
     vs_pos = [idx for idx, elem in enumerate(betfredjsdata) if elem == '-']
 
     betfred_raw_names = [betfredjsdata[idx - 2] for idx in vs_pos]
     cuota_text_1 = [betfredjsdata[idx - 1] for idx in vs_pos]
     cuota_text_2 = [betfredjsdata[idx + 1] for idx in vs_pos]
 
-    # data_filter = [dataelem for dataelem in betfreddata if not (dataelem == '' or dataelem[0] in ['-','+']) ]
-
     cuota_1 = list(pandas.to_numeric(cuota_text_1))
     cuota_2 = list(pandas.to_numeric(cuota_text_2))
-
-    # betfredrawnames = data_filter[1::4]
 
     betfred_names = split_match_names(betfred_raw_names)
     
