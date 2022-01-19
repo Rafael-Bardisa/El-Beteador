@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
-import benchmarking
+
 url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
 
 
@@ -56,7 +56,7 @@ def apellido(surnamedata: str) -> str:  # corta str en el primer caracter no alf
     surname = surnamedata.split('\n')
     return surname[0]
 
-@benchmarking.benchmark
+
 def scrap(driver) -> dict:
     """
     Scrapea la pagina william y recoge las cuotas de los partidos de tenis
