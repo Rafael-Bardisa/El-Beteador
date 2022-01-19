@@ -22,7 +22,10 @@ def format_name(split_name):
 def split_betway_names(betway_names):
     # divide el nombre de la match en los dos jugadores
     split_names = []
+    bet_name: str
     for bet_name in betway_names:
+        if bet_name.startswith(' '):
+            bet_name = bet_name[1:]
         names = bet_name.split(' -')
         split_names.append(names[0])
         split_names.append(names[1])
@@ -37,17 +40,20 @@ def scrap(driver) -> dict:
     :param driver: referencia a un driver de selenium
     :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
     """
-    betway_cuotas = driver.find_elements(By.CLASS_NAME, "oddsDisplay")
-    betway_names = driver.find_elements(By.CLASS_NAME, "scoreboardInfoNames")
 
-    # quita el texto garbage y deja los nombres de los broskis del tenis
-    string_betway_names = [name.text for name in betway_names]
+    jScript_cuotas = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("oddsDisplay"))
+    return willmatches.map(function (match){return match.innerText})"""
 
-    betway_cuotas[:] = [pandas.to_numeric(cuota.text.replace(',', '.')) if cuota != '-' else 0.5 for cuota in
+    jScript_names = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("scoreboardInfoNames"))
+    return willmatches.map(function (match){return match.innerText})"""
+
+    betway_cuotas = driver.execute_script(jScript_cuotas)
+    betway_names = driver.execute_script(jScript_names)
+
+    betway_cuotas[:] = [pandas.to_numeric(cuota.replace(',', '.')) if cuota != '-' else 0.5 for cuota in
                         betway_cuotas]
 
-    split_names = split_betway_names(string_betway_names)
-
+    split_names = split_betway_names(betway_names)
     # reformatea los nombres como apellido, inicial del nombre
     true_names = [format_name(split_name) for split_name in split_names]
 
