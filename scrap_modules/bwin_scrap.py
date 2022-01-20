@@ -49,16 +49,13 @@ def extract_matches(bwin_matches):
 
 # TODO desapareja mal las matches por algun motivo
 def handle_bwin_match(bwin_cuotas, bwin_names, match):
-    try:
-        cuotas = pandas.to_numeric(match[3:5], errors='coerce')
-        if any(pandas.isna(cuotas)):
-            cuotas = pandas.to_numeric(match[13:15])
+    cond = map(lambda x: '.' in x, match[-2:])  # mira si los dos elementos del final tienen un punto
+    if all(cond):
+        cuotas = pandas.to_numeric(match[-2:])
         bwin_cuotas.extend(list(cuotas))
         bwin_names.extend(match[0:2])
-    except (ValueError, IndexError):  # si hay un error se va
-        pass
-        # print(f'error at {match[0]}')
 
+        # print(f'error at {match[0]}')
 
 def format_name(elem):
     """
