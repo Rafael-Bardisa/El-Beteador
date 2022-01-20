@@ -38,7 +38,7 @@ def scrap(driver) -> dict:
     """
     Scrapea la pagina betway y recoge las cuotas de los partidos de tenis
     :param driver: referencia a un driver de selenium
-    :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
+    :return betway_dict: diccionario estilo {match: [cuota 1, cuota 2]
     """
 
     jScript_cuotas = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("oddsDisplay"))
@@ -67,8 +67,8 @@ def scrap(driver) -> dict:
     return betway_dict
 
 
-def print_dict(dict):
-    for key, val in dict.items():
+def print_dict(dict_to_str):
+    for key, val in dict_to_str.items():
         print(f'{key}: {val}')
 
 def main():

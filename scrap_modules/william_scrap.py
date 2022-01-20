@@ -93,8 +93,8 @@ def scrap(driver) -> dict:
 
     return william_dict
 
-def print_dict(dict):
-    for key, val in dict.items():
+def print_dict(dict_to_str):
+    for key, val in dict_to_str.items():
         print(f'{key}: {val}')
 
 def main():
