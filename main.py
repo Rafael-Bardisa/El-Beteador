@@ -2,6 +2,7 @@
 import time
 
 import pandas as pd
+import bet_calc as calc
 # import sys
 # mágicamente coge los archivos del subdirectorio, pycharm no detecta que se use pero es mentira
 from scrap_modules import *
@@ -151,7 +152,9 @@ def BETI(driver):
         data_final = big_scrap(driver)
 
         # TODO calcular margenes para apostar usando dineros y data final
-
+        arbiter = calc.bet_frame(data_final, dineros)
+        if not arbiter.empty:
+            print(f'\n\n{yellow}Posibilidades de arbitraje:\n{reset}{arbiter}\n')
         # volver a ejecutar loop o salir (<0)
         dineros = enter_bet(f'{yellow}nueva bet:{reset} ')
 
