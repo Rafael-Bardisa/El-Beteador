@@ -151,14 +151,13 @@ def BETI(driver):
     while dineros > 0:
         data_final = big_scrap(driver)
 
-        # TODO calcular margenes para apostar usando dineros y data final
         arbiter = calc.bet_frame(data_final, dineros)
         if not arbiter.empty:
             print(f'\n\n{yellow}Posibilidades de arbitraje:\n{reset}{arbiter}\n')
+
         # volver a ejecutar loop o salir (<0)
         dineros = enter_bet(f'{yellow}nueva bet:{reset} ')
 
-    # TODO esto solo cierra una ventana lol
     for i in range(len(modulos)):
         driver.switch_to.window(driver.window_handles[-1])
         driver.close()
