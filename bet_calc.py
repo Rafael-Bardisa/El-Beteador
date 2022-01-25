@@ -27,15 +27,14 @@ def bet_range(c_1, c_2, bet):  # rangos en los que se puede apostar con arbitraj
 
 
 def bet_size(c_1, c_2, bet):
+    profits=-1
     if c_1 <= c_2:
-        profits=-1
         while profits <= 0:
             bet = bet+1
             bet_1 = bet
             bet_2 = round(bet_1*(c_1/c_2))
             profits = (c_1*bet_1-bet_1-bet_2)*(c_2*bet_2-bet_1-bet_2)
     else:
-        profits=-1
         while profits <= 0:
             bet = bet+1
             bet_2 = bet
