@@ -26,6 +26,24 @@ def bet_range(c_1, c_2, bet):  # rangos en los que se puede apostar con arbitraj
     return margenes_bet_1, margenes_bet_2
 
 
+def bet_size(c_1, c_2, bet):
+    if c_1 <= c_2:
+        profits=-1
+        while profits <= 0:
+            bet = bet+1
+            bet_1 = bet
+            bet_2 = round(bet_1*(c_1/c_2))
+            profits = (c_1*bet_1-bet_1-bet_2)*(c_2*bet_2-bet_1-bet_2)
+    else:
+        profits=-1
+        while profits <= 0:
+            bet = bet+1
+            bet_2 = bet
+            bet_1 = round(bet_2*(c_2/c_1))
+            profits = (c_1*bet_1-bet_1-bet_2)*(c_2*bet_2-bet_1-bet_2)
+    return bet_1, bet_2
+
+
 def bet_frame(data_frame, bet):  # con el dataframe final calcula las apuestas (si hay)
     # diccionario para construir series easy
     arbitraje = data_frame[data_frame['z'] > 0].copy(deep=True)
