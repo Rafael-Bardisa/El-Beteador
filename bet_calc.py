@@ -42,7 +42,6 @@ def bet_size(c_1, c_2, bet):
             profits = (c_1*bet_1-bet_1-bet_2)*(c_2*bet_2-bet_1-bet_2)
     return bet_1, bet_2
 
-
 def bet_frame(data_frame, bet):  # con el dataframe final calcula las apuestas (si hay)
     # diccionario para construir series easy
     arbitraje = data_frame[data_frame['z'] > 0].copy(deep=True)
