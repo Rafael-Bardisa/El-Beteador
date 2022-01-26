@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
 
-url = "https://sports.williamhill.es/betting/es-es/tenis/partidos"
+url = "https://sports.williamhill.es/betting/es-es/tenis/partidos/competici%C3%B3n/hoy"
 
 
 # driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
