@@ -72,7 +72,7 @@ def print_dict(dict_to_str):
 def main():  # de testeo para comprobar que la funcion va bien
 	import chromedriver
 
-	driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
+	driver = webdriver.Chrome(chromedriver.get_path(local=False),
 								chrome_options=chromedriver.camo())
 	input(f'{url = !s}')
 	print_dict(scrap(driver))

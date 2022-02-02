@@ -1,9 +1,7 @@
-# from selenium import webdriver
-import time
+# import time
 
 import pandas as pd
 import bet_calc as calc
-# import sys
 # mágicamente coge los archivos del subdirectorio, pycharm no detecta que se use pero es mentira
 from scrap_modules import *
 
@@ -135,7 +133,7 @@ def url_display():
     return display
 
 
-def BETI(driver):
+def betizador(driver):
     beti_list = input(
         f'Modulos importados: {[format_name(mod.__name__) for mod in dictardo]}\ndroplist (space separated): ').split()
     modulos.update({mod: mod_url for mod, mod_url in dictardo.items() if format_name(mod.__name__) not in beti_list})

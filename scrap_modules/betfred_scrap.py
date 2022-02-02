@@ -58,7 +58,7 @@ def print_dict(dict_to_str):
 def main():
     import chromedriver
 
-    driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",
+    driver = webdriver.Chrome(chromedriver.get_path(local=False),
                               chrome_options=chromedriver.camo())
     input(f'{url = !s}')
     print_dict(scrap(driver))

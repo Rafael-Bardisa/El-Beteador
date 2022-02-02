@@ -60,3 +60,5 @@ def bet_frame(data_frame, bet):  # con el dataframe final calcula las apuestas (
     arbitraje = arbitraje.merge(bet_2_series.rename('bet 2'), left_index=True, right_index=True)
 
     return arbitraje
+
+# TODO calcular bets dada bet maxima a la cuota mas baja

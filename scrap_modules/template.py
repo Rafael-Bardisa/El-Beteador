@@ -1,3 +1,6 @@
+from chromedriver import get_path
+
+
 def write_template(name):  # xd moment
     """
     Crea el template de un archivo de scraper con solo darle el nombre
@@ -18,13 +21,13 @@ def write_template(name):  # xd moment
         furl = "f'{url = !s}'"
         print_statement = "f'{key}: {val}'"
         print_dict = f"def print_dict(dict_to_str):\n\tfor key, val in dict_to_str.items():\n\t\tprint({print_statement})\n"
-        driver = f'driver = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver",\n\t\t\t\t\t\t\t\tchrome_options=chromedriver.camo())\n\t'
+        driver = f'driver = webdriver.Chrome(chromedriver.get_path(local=False),\n\t\t\t\t\t\t\t\tchrome_options=chromedriver.camo())\n\t'
         testfunc = f"def main(): # de testeo para comprobar que la funcion va bien\n\timport chromedriver\n\n\t{driver}input({furl})\n\tprint_dict(scrap(driver))\n\tinput('exit')\n\tdriver.close()\n"
         nameguard = f"if __name__ == '__main__':  # testea solo el scrapper de william\n\tmain()"
         print(f'{imports}\n\n{url}\n\n{func}\n\n{print_dict}\n\n{testfunc}\n\n{nameguard}', file=scrapper)
 
 
-def main():
+def gen_file(local=False):
     red = '\33[91m'
     reset = '\33[0m'
     blue = '\33[94m'
@@ -35,7 +38,9 @@ def main():
         try:
             if '_scrap.py' in new_file:  # permite escribir tambien la extension
                 new_file = new_file.split('_')[0]
-            write_template(new_file)
+            scope = "scrap_modules/" * (not local)
+            file_path = (f"{scope}{new_file}")
+            write_template(file_path)
         except FileExistsError:  # pilla que la funcion ha petado y te lo dice en rojo
             print(f'{red}{new_file}_scrap file already exists!{reset}')
         else:  # pilla que la funcion NO ha petado y te lo dice en azul
@@ -43,4 +48,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    gen_file(local=True)
