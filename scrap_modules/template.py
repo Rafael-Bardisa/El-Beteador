@@ -1,13 +1,15 @@
 from chromedriver import get_path
 
 
-def write_template(name):  # xd moment
+def write_template(name, local=False):  # xd moment
     """
     Crea el template de un archivo de scraper con solo darle el nombre
     peta si el archivo que va a crear ya existe
     :param name: {name}_scrap.py el nombre del archivo
     """
-    with open(f'{name}_scrap.py', 'x') as scrapper:
+    scope = "scrap_modules/" * (not local)
+    file_path = (f"{scope}{name}")
+    with open(f'{file_path}_scrap.py', 'x') as scrapper:
         imports = f'from selenium import webdriver\nfrom selenium.webdriver.common.by import By\nimport pandas\n'
         url = "# url de la pagina:\nurl = ''\n"
         formato = '{match: [cuota 1, cuota 2]}'
@@ -38,9 +40,7 @@ def gen_file(local=False):
         try:
             if '_scrap.py' in new_file:  # permite escribir tambien la extension
                 new_file = new_file.split('_')[0]
-            scope = "scrap_modules/" * (not local)
-            file_path = (f"{scope}{new_file}")
-            write_template(file_path)
+            write_template(new_file, local=local)
         except FileExistsError:  # pilla que la funcion ha petado y te lo dice en rojo
             print(f'{red}{new_file}_scrap file already exists!{reset}')
         else:  # pilla que la funcion NO ha petado y te lo dice en azul
