@@ -6,7 +6,6 @@ import benchmarking
 url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
 
 
-# driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
 
 
 # 'Pavel KotovRUS
