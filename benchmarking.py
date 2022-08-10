@@ -1,6 +1,8 @@
 import time
 import cProfile
 # TODO import cProfile y hacer benchmark para acelerar el codigo
+
+
 def benchmark(func):
     """
     Decorador que te mide el tiempo que tarda la funcion en ejecutarse.
@@ -49,7 +51,7 @@ def fuckoff(item):
 if __name__ == '__main__':
     input(f'\33[9;30;43;51;21;3mlol\33[0m')
     for i in range(100):
-        print(f'{col(i)}@: ', end=f'{col(0)}{i}\n')
+        print(f'{col(i)}@:', end=f'{col(0)} {i}\n')
     print(f'{col(0)}')
     print(f'{dicto}\n\n{globals()}')
     fuckoff(1)
@@ -76,3 +78,4 @@ if __name__ == '__main__':
     lista = [listelem for idx, listelem in enumerate(listarda) if idx not in droplist]
     print(f'lista dropeada: {lista}\nLista Og: {listarda}')
     '''
+
