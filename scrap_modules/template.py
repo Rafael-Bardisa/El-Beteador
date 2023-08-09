@@ -1,4 +1,5 @@
 from chromedriver import get_path
+import os
 
 
 def write_template(name, local=False):  # xd moment
@@ -42,9 +43,9 @@ def gen_file(local=False):
                 new_file = new_file.split('_')[0]
             write_template(new_file, local=local)
         except FileExistsError:  # pilla que la funcion ha petado y te lo dice en rojo
-            print(f'{red}{new_file}_scrap file already exists!{reset}')
+            print(f'{red}{new_file}_scrap module already exists!{reset}')
         else:  # pilla que la funcion NO ha petado y te lo dice en azul
-            print(f'{blue}{new_file}_scrap file created!{reset}')
+            print(f'{blue}{new_file}_scrap module created!{reset}')
 
 
 if __name__ == '__main__':
