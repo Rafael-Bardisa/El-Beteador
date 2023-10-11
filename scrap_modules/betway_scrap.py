@@ -17,8 +17,6 @@ import pandas
 url = "https://betway.es/es/sports/sct/tennis/challenger"
 
 
-# driv = webdriver.Chrome("/Users/rafaelbardisarodes/Desktop/beteador/chromedriver", chrome_options=chromedriver.camo())
-
 
 def format_name(split_name):
     data = split_name.split(" ")
