@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas
-import time
 
 #driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
 url = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
@@ -43,7 +42,7 @@ def print_dict(dict):
         print(f'{key}: {val}')
 
 def main():
-    import chromedriver
+    from driver_manager import chromedriver
 
     driver = webdriver.Chrome(chromedriver.get_path(local=False),
                               chrome_options=chromedriver.camo())

@@ -23,6 +23,7 @@ def benchmark(func):
 
     return inner
 
+#expect(int, string, string)(func)(3)
 
 def cprof(func):
     def replacement(*args, **kwargs):
@@ -38,6 +39,7 @@ def cprof(func):
 def fib(n):
     return 1 if n in [1, 2] else (fib(n - 1) + fib(n - 2))
 
+#fib(3) === benchmark(fib)(3)
 
 def col(n):
     return f'\33[{n}m'

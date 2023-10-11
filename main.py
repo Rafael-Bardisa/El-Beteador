@@ -2,7 +2,7 @@ try:
     import sys
     import pandas
     from selenium.common.exceptions import WebDriverException
-    import chromedriver
+    from driver_manager import chromedriver
     import beti_scrap
     from scrap_modules.template import gen_file
 except ModuleNotFoundError:
@@ -33,7 +33,7 @@ def handle_program_arguments(args):
 
 def run(driver_path):
     try:
-        driver = chromedriver.chrome(driver_path)
+        driver = chromedriver.chrome()
         beti_scrap.betizador(driver)
     except WebDriverException:
         print(f"\33[91mError: {driver_path} does not lead to a chromedriver executable.\33[0m Run with -h flag for help\33[0m")

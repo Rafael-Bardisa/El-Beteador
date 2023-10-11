@@ -1,9 +1,22 @@
+from driver_manager.driver_manager import DriverManager
+from typing import Dict, Union
+
+import logging
+
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+
+typeWebDriver = Union[webdriver.Firefox,
+                      webdriver.Chrome,
+                      webdriver.Edge,
+                      webdriver.Safari
+                      ]
+
+from core.interfaces.inner.scraper import ScraperInterface
 import pandas
 
 url = "https://sports.williamhill.es/betting/es-es/tenis/partidos/competici%C3%B3n/hoy"
 
+hydrater_source = "./javascript_hydraters/william_hydrater.js"
 
 # driv = webdriver.Chrome("C:/Users/Usuario/Desktop/Bets/chromedriver96")
 # bet365tenis = "https://www.bet365.es/#/AC/B13/C1/D50/E2/F163/"
@@ -56,54 +69,85 @@ def apellido(surnamedata: str) -> str:  # corta str en el primer caracter no alf
     surname = surnamedata.split('\n')
     return surname[0]
 
+class ModuleScraper(ScraperInterface):
+    def __init__(self, logger: logging.Logger):
+        self.logger = logger
 
-def scrap(driver) -> dict:
-    """
-    Scrapea la pagina william y recoge las cuotas de los partidos de tenis
-    :param driver: referencia a un driver de selenium
-    :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]
-    """
+    def scrap(self, driver: typeWebDriver) -> Dict:
+        """
+        Scrapea la pagina william y recoge las cuotas de los partidos de tenis
+        :param driver: referencia a un driver de selenium
+        :return william_dict: diccionario estilo {match: [cuota 1, cuota 2]}
+        """
+        self.logger.debug(f"Loading scraper scripts")
 
-    jScript_cuotas = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("betbutton__odds"))
-    return willmatches.map(function (match){return match.innerText})"""
+        jScript_cuotas = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("betbutton__odds"))
+        return willmatches.map(function (match){return match.innerText})"""
 
-    jScript_names = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("btmarket__content"))
-    return willmatches.map(function (match){return match.innerText})"""
+        jScript_names = """const willmatches = Array.prototype.slice.call(document.getElementsByClassName("btmarket__content"))
+        return willmatches.map(function (match){return match.innerText})"""
 
-    william_cuotas = driver.execute_script(jScript_cuotas)
-    william_names = driver.execute_script(jScript_names)
+        self.logger.debug("Scripts loaded. executing...")
 
-    # convierte los elementos de las cuotas a numeros
-    william_cuotas[:] = [pandas.to_numeric(cuota) for cuota in william_cuotas]
+        william_cuotas = driver.execute_script(jScript_cuotas)
+        william_names = driver.execute_script(jScript_names)
 
-    # procesa y divide los nombres
-    true_william_names = process_names(william_names)
-    split_names = split_match_names(true_william_names)
+        self.logger.debug(f"odds scraped: {william_cuotas}")
+        self.logger.debug(f"names scraped: {william_names}")
 
-    # formatea los nombres y tambien devuelve la lista de cuotas a borrar
-    drop_idx, true_names = format_names(split_names)
-    william_cuotas[:] = [cuota for idx, cuota in enumerate(william_cuotas) if idx not in drop_idx]
+        self.logger.debug("parsing data...")
 
-    # une los nombres para identificar el partido
-    truer_william_names = [f'{local} {visitor}' for local, visitor in zip(true_names[::2], true_names[1::2])]
+        # convierte los elementos de las cuotas a numeros
+        william_cuotas[:] = [pandas.to_numeric(cuota) for cuota in william_cuotas]
 
-    # crea el diccionario magico que usa el main para crear la dataframe final
-    william_dict = {name: cuotas for name, cuotas in
-                    zip(truer_william_names, map(list, zip(william_cuotas[::2], william_cuotas[1::2])))}
+        # procesa y divide los nombres
+        true_william_names = process_names(william_names)
+        split_names = split_match_names(true_william_names)
 
-    return william_dict
+        # formatea los nombres y tambien devuelve la lista de cuotas a borrar
+        drop_idx, true_names = format_names(split_names)
+        william_cuotas[:] = [cuota for idx, cuota in enumerate(william_cuotas) if idx not in drop_idx]
+
+        # une los nombres para identificar el partido
+        truer_william_names = [f'{local} {visitor}' for local, visitor in zip(true_names[::2], true_names[1::2])]
+
+        # crea el diccionario magico que usa el main para crear la dataframe final
+        william_dict = {name: cuotas for name, cuotas in
+                        zip(truer_william_names, map(list, zip(william_cuotas[::2], william_cuotas[1::2])))}
+
+        self.logger.debug(f"parsed data: {william_dict}")
+
+        return william_dict
 
 def print_dict(dict_to_str):
     for key, val in dict_to_str.items():
         print(f'{key}: {val}')
 
 def main():
-    import chromedriver
 
-    driver = webdriver.Chrome(chromedriver.get_path(local=False),
-                              chrome_options=chromedriver.camo())
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
+    # create console handler and set level to debug
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+
+    # create formatter
+
+    formatter = logging.Formatter('%(asctime)s %(filename)s - %(funcName)s [%(levelname)-s] - %(message)s')
+
+    # add formatter to ch
+    ch.setFormatter(formatter)
+
+    # add ch to logger
+    logger.addHandler(ch)
+
+    driver = DriverManager(logger).create_driver("chrome")
+    driver.get(url)
+    william_scraper = ModuleScraper(logger)
+
     input(f'{url = !s}')
-    print_dict(scrap(driver))
+    print_dict(william_scraper.scrap(driver))
     input('exit')
     driver.close()
 

@@ -1,6 +1,18 @@
+from driver_manager.driver_manager import DriverManager
+from typing import Dict, Union
+
 from selenium import webdriver
+
+typeWebDriver = Union[webdriver.Firefox,
+                      webdriver.Chrome,
+                      webdriver.Edge,
+                      webdriver.Safari
+                      ]
+
+import logging
+
+from core.interfaces.inner.scraper import ScraperInterface
 import pandas
-import benchmarking
 
 # url de la pagina:
 url = 'https://www.betfred.es/ES/512/sports#bo-navigation=356554.1&action=market-group-list'
@@ -24,31 +36,43 @@ def split_match_names(names):
 
 
 
+class ModuleScraper(ScraperInterface):
+    def __init__(self, logger: logging.Logger):
+        self.logger = logger
+    def scrap(self, driver: typeWebDriver) -> Dict:
 
-def scrap(driver) -> dict:
+        self.logger.debug("Loading js script")
 
-    # El bicho magico de la velocidad
-    jScript = """const bfredmatches = Array.prototype.slice.call(document.getElementsByTagName("td"))
-return bfredmatches.map(function (match){
-    return match.innerText
-})"""
-    betfredjsdata = driver.execute_script(jScript)
+        # El bicho magico de la velocidad
+        jScript = """const bfredmatches = Array.prototype.slice.call(document.getElementsByTagName("td"))
+    return bfredmatches.map(function (match){
+        return match.innerText
+    })"""
 
-    vs_pos = [idx for idx, elem in enumerate(betfredjsdata) if elem == '-']
+        self.logger.debug("Script loaded. Executing...")
 
-    betfred_raw_names = [betfredjsdata[idx - 2] for idx in vs_pos]
-    cuota_text_1 = [betfredjsdata[idx - 1] for idx in vs_pos]
-    cuota_text_2 = [betfredjsdata[idx + 1] for idx in vs_pos]
+        betfredjsdata = driver.execute_script(jScript)
 
-    cuota_1 = list(pandas.to_numeric(cuota_text_1))
-    cuota_2 = list(pandas.to_numeric(cuota_text_2))
+        self.logger.debug(f"Data found: {betfredjsdata}")
+        self.logger.debug("Parsing data...")
 
-    betfred_names = split_match_names(betfred_raw_names)
-    
-    betfred_dict = {name: cuotas for name, cuotas in
-                    zip(betfred_names, map(list, zip(cuota_1, cuota_2)))}
-     
-    return betfred_dict
+        vs_pos = [idx for idx, elem in enumerate(betfredjsdata) if elem == '-']
+
+        betfred_raw_names = [betfredjsdata[idx - 2] for idx in vs_pos]
+        cuota_text_1 = [betfredjsdata[idx - 1] for idx in vs_pos]
+        cuota_text_2 = [betfredjsdata[idx + 1] for idx in vs_pos]
+
+        cuota_1 = list(pandas.to_numeric(cuota_text_1))
+        cuota_2 = list(pandas.to_numeric(cuota_text_2))
+
+        betfred_names = split_match_names(betfred_raw_names)
+
+        betfred_dict = {name: cuotas for name, cuotas in
+                        zip(betfred_names, map(list, zip(cuota_1, cuota_2)))}
+
+        self.logger.debug(f"Parsed data: {betfred_dict}")
+
+        return betfred_dict
 
 
 def print_dict(dict_to_str):
@@ -56,12 +80,30 @@ def print_dict(dict_to_str):
         print(f'{key}: {val}')
 
 def main():
-    import chromedriver
 
-    driver = webdriver.Chrome(chromedriver.get_path(local=False),
-                              chrome_options=chromedriver.camo())
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
+    # create console handler and set level to debug
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+
+    # create formatter
+
+    formatter = logging.Formatter('%(asctime)s %(filename)s - %(funcName)s [%(levelname)-s] - %(message)s')
+
+    # add formatter to ch
+    ch.setFormatter(formatter)
+
+    # add ch to logger
+    logger.addHandler(ch)
+
+    test_scraper = ModuleScraper(logger)
+
+    driver = DriverManager(logger).create_driver("chrome")
+    driver.get(url)
     input(f'{url = !s}')
-    print_dict(scrap(driver))
+    print_dict(test_scraper.scrap(driver))
     input('exit')
     driver.close()
 

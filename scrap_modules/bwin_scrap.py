@@ -1,7 +1,18 @@
+from driver_manager.driver_manager import DriverManager
+from typing import Dict, Union
+
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+
+typeWebDriver = Union[webdriver.Firefox,
+                      webdriver.Chrome,
+                      webdriver.Edge,
+                      webdriver.Safari
+                      ]
+
+import logging
+
+from core.interfaces.inner.scraper import ScraperInterface
 import pandas
-import benchmarking
 
 url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
 
@@ -75,32 +86,45 @@ def format_name(elem):
 
 
 # TODO mas tests para asegurarse de que es robusto
-def scrap(driver) -> dict:
-    """
-    Scrapea la pagina bwin y recoge las cuotas de los partidos de tenis
-    :param driver: referencia a un driver de selenium
-    :return betway_dict: diccionario estilo {match: [cuota 1, cuota 2]
-    """
-    # El bicho magico de la velocidad
-    jScript = """const bwinmatches = Array.prototype.slice.call(document.getElementsByClassName("grid-event-wrapper"))
-return bwinmatches.map(function (match){
-    return match.innerText
-})"""
-    # bwin_matches = driver.find_elements(By.CLASS_NAME, "grid-event-wrapper")
-    bwin_matches = driver.execute_script(jScript)
-    # extrae la info de las matches
-    bwin_cuotas, bwin_names = extract_matches(bwin_matches)
+class ModuleScraper(ScraperInterface):
+    def __init__(self, logger: logging.Logger):
+        self.logger = logger
+    def scrap(self, driver: typeWebDriver) -> Dict:
+        """
+        Scrapea la pagina bwin y recoge las cuotas de los partidos de tenis
+        :param driver: referencia a un driver de selenium
+        :return betway_dict: diccionario estilo {match: [cuota 1, cuota 2]
+        """
+        self.logger.debug("Loading js script...")
+        # El bicho magico de la velocidad
+        jScript = """const bwinmatches = Array.prototype.slice.call(document.getElementsByClassName("grid-event-wrapper"))
+    return bwinmatches.map(function (match){
+        return match.innerText
+    })"""
 
-    # bwin_cuotas[:] = [pandas.to_numeric(cuota) for cuota in bwin_cuotas]
-    # formatea los nombres correctamente
-    true_bwin_names = [format_name(elem) for elem in bwin_names]
-    # empareja los rivales
-    truer_bwin_names = [f'{local} {visitor}' for local, visitor in zip(true_bwin_names[::2], true_bwin_names[1::2])]
+        self.logger.debug("Script loaded. Executing...")
 
-    # crea el diccionario magico que usa el main para crear la dataframe final
-    bwin_dict = {name: cuotas for name, cuotas in
-                 zip(truer_bwin_names, map(list, zip(bwin_cuotas[::2], bwin_cuotas[1::2])))}
-    return bwin_dict
+        # bwin_matches = driver.find_elements(By.CLASS_NAME, "grid-event-wrapper")
+        bwin_matches = driver.execute_script(jScript)
+        # extrae la info de las matches
+        self.logger.debug(f"Matches found: {bwin_matches}")
+        self.logger.debug(f"Parsing found matches...")
+
+        bwin_cuotas, bwin_names = extract_matches(bwin_matches)
+
+        # bwin_cuotas[:] = [pandas.to_numeric(cuota) for cuota in bwin_cuotas]
+        # formatea los nombres correctamente
+        true_bwin_names = [format_name(elem) for elem in bwin_names]
+        # empareja los rivales
+        truer_bwin_names = [f'{local} {visitor}' for local, visitor in zip(true_bwin_names[::2], true_bwin_names[1::2])]
+
+        # crea el diccionario magico que usa el main para crear la dataframe final
+        bwin_dict = {name: cuotas for name, cuotas in
+                     zip(truer_bwin_names, map(list, zip(bwin_cuotas[::2], bwin_cuotas[1::2])))}
+
+        self.logger.debug(f"parsed data: {bwin_dict}")
+
+        return bwin_dict
 
 
 def print_dict(dict_to_str):
@@ -108,12 +132,29 @@ def print_dict(dict_to_str):
         print(f'{key}: {val}')
 
 def main():
-    import chromedriver
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
 
-    driver = webdriver.Chrome(chromedriver.get_path(local=False),
-                              chrome_options=chromedriver.camo())
+    # create console handler and set level to debug
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+
+    # create formatter
+
+    formatter = logging.Formatter('%(asctime)s %(filename)s - %(funcName)s [%(levelname)-s] - %(message)s')
+
+    # add formatter to ch
+    ch.setFormatter(formatter)
+
+    # add ch to logger
+    logger.addHandler(ch)
+
+    bwin_scraper = ModuleScraper(logger)
+
+    driver = DriverManager(logger).create_driver("chrome")
+    driver.get(url)
     input(f'{url = !s}')
-    print_dict(scrap(driver))
+    print_dict(bwin_scraper.scrap(driver))
     input('exit')
     driver.close()
 

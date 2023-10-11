@@ -31,7 +31,8 @@ def init_browser(driver):
     n_casas = len(modulos) - 1
     for i in range(n_casas):
         driver.switch_to.window(driver.window_handles[i])
-        driver.execute_script("window.open()")
+        #driver.execute_script("window.open()")
+        driver.get(modulos[i].url)
 
 
 # comprueba si vale la pena apostar si hay cuotas a, b

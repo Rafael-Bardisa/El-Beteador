@@ -1,33 +1,56 @@
-from chromedriver import get_path
-import os
-
-
 def write_template(name, local=False):  # xd moment
     """
     Crea el template de un archivo de scraper con solo darle el nombre
     peta si el archivo que va a crear ya existe
+    :param local: whether file is executed locally or not
     :param name: {name}_scrap.py el nombre del archivo
     """
-    scope = "scrap_modules/" * (not local)
-    file_path = (f"{scope}{name}")
-    with open(f'{file_path}_scrap.py', 'x') as scrapper:
-        imports = f'from selenium import webdriver\nfrom selenium.webdriver.common.by import By\nimport pandas\n'
-        url = "# url de la pagina:\nurl = ''\n"
-        formato = '{match: [cuota 1, cuota 2]}'
-        docstring = f'\t"""\n\tScrapea la pagina {name} y recoge las cuotas de los partidos de tenis\n\t:param driver: referencia a un driver de selenium\n\t:return {name}_dict: diccionario estilo {formato}\n\t"""'
-        j_map = '{return match.innerText}'
-        jScript = f'jScript = """const {name}matches = Array.prototype.slice.call(document.getElementsBy########("########"))\nreturn {name}matches.map(function (match){j_map})"""\n\t'
-        scrap_data = f'{name}_data = driver.execute_script(jScript)\n\t'
-        nuldict = '{}'
-        scrap = 'def scrap(driver) -> dict:\n'
-        func = f'{scrap}{docstring}\n\t# replacea los ######## por lo que usarias con el driver find elements\n\t{jScript}\n\t{scrap_data}\n\t# diccionario a llenar con las datas scrapeadas\n\t{name}_dict = {nuldict}\n\n\treturn {name}_dict\n'
-        furl = "f'{url = !s}'"
-        print_statement = "f'{key}: {val}'"
-        print_dict = f"def print_dict(dict_to_str):\n\tfor key, val in dict_to_str.items():\n\t\tprint({print_statement})\n"
-        driver = f'driver = webdriver.Chrome(chromedriver.get_path(local=False),\n\t\t\t\t\t\t\t\tchrome_options=chromedriver.camo())\n\t'
-        testfunc = f"def main(): # de testeo para comprobar que la funcion va bien\n\timport chromedriver\n\n\t{driver}input({furl})\n\tprint_dict(scrap(driver))\n\tinput('exit')\n\tdriver.close()\n"
-        nameguard = f"if __name__ == '__main__':  # testea solo el scrapper de william\n\tmain()"
-        print(f'{imports}\n\n{url}\n\n{func}\n\n{print_dict}\n\n{testfunc}\n\n{nameguard}', file=scrapper)
+    scope = "scrap_modules" if not local else "."
+
+    beti_template_path = f"{scope}/template_scrap.txt"
+    javascript_scrap_template_path = f"{scope}/javascript_scrapers/template_scrap.txt"
+    javascript_hydrater_template_path = f"{scope}/javascript_hydraters/template_hydrater.txt"
+
+    file_path = f"{scope}/{name}_scrap.py"
+    javascript_scraper_path = f"{scope}/javascript_scrapers/{name}_scrap.js"
+    javascript_hydrater_path = f"{scope}/javascript_hydraters/{name}_hydrater.js"
+
+
+    with open(beti_template_path, 'r') as template_file:
+        beti_template = template_file.read()
+
+    with open(javascript_scrap_template_path, 'r') as template_file:
+        javascript_scraper_template = template_file.read()
+
+    with open(javascript_hydrater_template_path, 'r') as template_file:
+        javascript_hydrater_template = template_file.read()
+
+
+    with open(file_path, 'x') as scraper_file:
+        beti_script = beti_template.format(
+            name=name,
+            dict="{}",
+            match_format="{match: [odd 1, odd 2]}",
+            js_script="{js_script}",
+            raw_data=f"{{{name}_data}}",
+            parsed_data=f"{{{name}_dict}}",
+            key="{key}",
+            val="{val}",
+            url_fmt = "{url = !s}"
+        )
+        print(beti_script, file=scraper_file)
+
+    with open(javascript_scraper_path, 'x') as js_scraper_file:
+        js_script = javascript_scraper_template.format(
+            name=name,
+            script_return="{return match.innerText}"
+        )
+        print(js_script, file=js_scraper_file)
+
+    with open(javascript_hydrater_path, 'x') as js_hydrater_file:
+        js_script = javascript_hydrater_template
+        print(js_script, file=js_hydrater_file)
+
 
 
 def gen_file(local=False):
