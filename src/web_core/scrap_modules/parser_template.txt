@@ -1,0 +1,27 @@
+from typing import Dict
+
+from src.web_core.scraper.interfaces.inner.parser import ParserInterface
+
+import logging
+
+# webpage url:
+url = ''
+
+class ModuleParser(ParserInterface):
+	def __init__(self, logger: logging.Logger):
+		self.logger = logger
+
+	def parse(self, data: Dict) -> Dict:
+		"""
+		Parses data from {name} webpage and returns dict of found matches
+		:param data: whatever result from extracter, to be fully treated in this function
+		:return template_dict: a dictionary like {match_format}
+		"""
+		self.logger.debug(f"Parser received data: {data}")
+
+		# diccionario a llenar con las datas scrapeadas
+		{name}_dict = {dict}
+
+		self.logger.debug(f"Parsed data: {parsed_data}")
+
+		return {name}_dict

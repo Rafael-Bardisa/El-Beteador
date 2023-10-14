@@ -3,7 +3,6 @@
 import pandas as pd
 import bet_calc as calc
 # mágicamente coge los archivos del subdirectorio, pycharm no detecta que se use pero es mentira
-from scrap_modules import *
 
 red = '\33[91m'
 yellow = '\33[93m'

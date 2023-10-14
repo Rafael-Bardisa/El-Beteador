@@ -2,9 +2,9 @@ try:
     import sys
     import pandas
     from selenium.common.exceptions import WebDriverException
-    from driver_manager import chromedriver
+    from src.web_core.driver import chromedriver
     import beti_scrap
-    from scrap_modules.template import gen_file
+    from src.web_core.scrap_modules import gen_file
 except ModuleNotFoundError:
     print("\33[91mError: required dependencies not found.\33[0m Install selenium, numpy and pandas in your python environment to execute this script.")
 

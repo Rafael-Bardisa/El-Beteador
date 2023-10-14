@@ -1,2 +1,0 @@
-const {name}_matches = Array.prototype.slice.call(document.getElementsBy########("########"))
-	return {name}_matches.map(function (match){script_return})
