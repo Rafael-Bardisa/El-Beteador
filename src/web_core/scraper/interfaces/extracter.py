@@ -12,9 +12,9 @@ typeWebDriver = Union[webdriver.Firefox,
 # extract data from web pages
 
 
-class ExtracterInterface(ABC):
+class IExtracter(ABC):
     """
-    ScraperInterface interface for getting relevant information from a betting website
+    IScraper interface for getting relevant information from a betting website
     """
     @abstractmethod
     def extract(self, driver: typeWebDriver, *args) -> Dict:

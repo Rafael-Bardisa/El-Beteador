@@ -4,10 +4,10 @@ import importlib
 
 import sys
 
-from src.core.interfaces.inner.module_importer import ModuleImporterInterface
-from src.core.interfaces.inner.scraper import ScraperInterface
+from src.core.interfaces.module_importer import IModuleImporter
+from src.core.interfaces.scraper import IScraper
 
-from src.web_core.importer.interfaces.inner.config_manager import ConfigManagerInterface
+from src.web_core.importer.interfaces.config_manager import IConfigManager
 from src.web_core.hydrater.hydrater import BetiHydrater
 from src.web_core.extracter.extracter import BetiExtracter
 
@@ -16,13 +16,15 @@ from typing import List, Dict, Union, Tuple
 
 import logging
 
-from src.web_core.scraper.interfaces.inner.parser import ParserInterface
+from src.web_core.scraper.interfaces.parser import IParser
 from src.web_core.scraper.beti_scraper import BetiScraper
 
+from src.core.types.scraper_config import ScraperConfig
 
-class BetiImporter(ModuleImporterInterface):
 
-    def __init__(self, logger: logging.Logger, config_manager: ConfigManagerInterface, package: Union[Path, str]):
+class BetiImporter(IModuleImporter):
+
+    def __init__(self, logger: logging.Logger, config_manager: IConfigManager, package: Union[Path, str]):
         if not (isinstance(package, Path) or isinstance(package, str)):
             raise TypeError(f"module_directory must be either Path or str, not {type(package)}")
 
@@ -39,7 +41,7 @@ class BetiImporter(ModuleImporterInterface):
         self.scrap_modules_package = package
 
 
-    def _import_scraper(self, *, module_directory: Union[Path, str]) -> Tuple[Dict, ScraperInterface]:
+    def _import_scraper(self, *, module_directory: Union[Path, str]) -> Tuple[ScraperConfig, IScraper]:
         if not (isinstance(module_directory, Path) or isinstance(module_directory, str)):
             raise TypeError(f"module_directory must be either Path or str, not {type(module_directory)}")
 
@@ -50,14 +52,14 @@ class BetiImporter(ModuleImporterInterface):
 
         hydrater = BetiHydrater(self.logger, module_directory / "hydrater.js")
         extracter = BetiExtracter(self.logger, module_directory / "extracter.js")
-        parser: ParserInterface = importlib.import_module(f"{module_directory.name}.parser").ModuleParser
+        parser: IParser = importlib.import_module(f"{module_directory.name}.parser").ModuleParser
 
         scraper = BetiScraper(self.logger, hydrater, extracter, parser)
 
         return module_config, scraper
 
 
-    def import_scrapers(self, package_directory: Union[Path, str]) -> Tuple[List[Dict], List[ScraperInterface]]:
+    def import_scrapers(self, package_directory: Union[Path, str]) -> Tuple[List[ScraperConfig], List[IScraper]]:
         if not (isinstance(package_directory, Path) or isinstance(package_directory, str)):
             raise TypeError(f"module_directory must be either Path or str, not {type(package_directory)}")
 
@@ -65,7 +67,7 @@ class BetiImporter(ModuleImporterInterface):
             package_directory = Path(package_directory).absolute().resolve()
 
         config_list: List[Dict] = []
-        scraper_list: List[ScraperInterface] = []
+        scraper_list: List[IScraper] = []
 
         self.logger.debug(f"Loading all scrapers from {package_directory}...")
 

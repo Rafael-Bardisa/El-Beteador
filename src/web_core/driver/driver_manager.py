@@ -2,12 +2,12 @@ import logging
 from typing import Literal
 from pathlib import Path
 
-from src.core.interfaces.inner.driver_manager import DriverManagerInterface, typeWebDriver
+from src.core.interfaces.driver_manager import IDriverManager, typeWebDriver
 
 from .chromedriver import chrome
 
 
-class DriverManager(DriverManagerInterface):
+class DriverManager(IDriverManager):
 
     def __init__(self, logger: logging.Logger):
         self.logger = logger

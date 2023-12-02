@@ -2,7 +2,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 from abc import ABC, abstractmethod
 
 
-class HydraterInterface(ABC):
+class IHydrater(ABC):
 
     @abstractmethod
     def hydrate(self, driver: WebDriver, *args) -> None:

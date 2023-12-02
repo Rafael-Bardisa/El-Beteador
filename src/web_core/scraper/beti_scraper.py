@@ -1,20 +1,20 @@
 import logging
-from typing import Dict
+from typing import Dict, List
 
-from src.core.interfaces.inner.scraper import ScraperInterface, typeWebDriver
-from src.web_core.scraper.interfaces.inner.hydrater import HydraterInterface
-from src.web_core.scraper.interfaces.inner.extracter import ExtracterInterface
-from src.web_core.scraper.interfaces.inner.parser import ParserInterface
+from src.core.interfaces.scraper import IScraper, typeWebDriver
+from src.web_core.scraper.interfaces.hydrater import IHydrater
+from src.web_core.scraper.interfaces.extracter import IExtracter
+from src.web_core.scraper.interfaces.parser import IParser
 
-class BetiScraper(ScraperInterface):
+class BetiScraper(IScraper):
 
-    def __init__(self, logger: logging.Logger, hydrater: HydraterInterface, extracter: ExtracterInterface, parser: ParserInterface):
+    def __init__(self, logger: logging.Logger, hydrater: IHydrater, extracter: IExtracter, parser: IParser):
         self.logger = logger
         self.hydrater = hydrater
         self.extracter = extracter
         self.parser = parser
 
-    def scrap(self, driver: typeWebDriver) -> Dict:
+    def scrap(self, driver: typeWebDriver) -> Dict[str, List]:
 
         self.logger.debug(f"Hydrating page")
         self.hydrater.hydrate(driver)

@@ -1,12 +1,12 @@
 import pathlib
 from typing import Dict
 
-from src.web_core.scraper.interfaces.inner.extracter import ExtracterInterface, typeWebDriver
+from src.web_core.scraper.interfaces.extracter import IExtracter, typeWebDriver
 
 import logging
 
 
-class BetiExtracter(ExtracterInterface):
+class BetiExtracter(IExtracter):
 
     def __init__(self, logger: logging.Logger, extracter_path: pathlib.Path):
         self.logger = logger

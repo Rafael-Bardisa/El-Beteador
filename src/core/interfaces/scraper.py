@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Union, Dict
+from typing import Union, Dict, List
 
 from selenium import webdriver
 
@@ -12,12 +12,12 @@ typeWebDriver = Union[webdriver.Firefox,
 # scraper of web pages based on scrap_modules
 
 
-class ScraperInterface(ABC):
+class IScraper(ABC):
     """
-    ScraperInterface interface for getting relevant information from a betting website
+    IScraper interface for getting relevant information from a betting website
     """
     @abstractmethod
-    def scrap(self, driver: typeWebDriver) -> Dict:
+    def scrap(self, driver: typeWebDriver) -> Dict[str, List]:
         """
         Scraps match data from a given webdriver session. Assumes it is correctly aet up and hydrated
         :param driver: A chrome webdriver

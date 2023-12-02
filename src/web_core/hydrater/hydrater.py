@@ -1,12 +1,12 @@
 import pathlib
 
-from src.web_core.scraper.interfaces.inner.hydrater import HydraterInterface
+from src.web_core.scraper.interfaces.hydrater import IHydrater
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 import logging
 
 
-class BetiHydrater(HydraterInterface):
+class BetiHydrater(IHydrater):
 
     def __init__(self, logger: logging.Logger, hydrater_path: pathlib.Path):
         self.logger = logger

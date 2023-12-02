@@ -10,7 +10,7 @@ typeWebDriver = Union[webdriver.Firefox,
                       ]
 
 
-class DriverManagerInterface(ABC):
+class IDriverManager(ABC):
     """
     Interface for implementing a class that creates and configures a webdriver for El Beteador
     """

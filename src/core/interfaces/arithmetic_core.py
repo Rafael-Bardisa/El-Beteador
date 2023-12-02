@@ -8,9 +8,9 @@ class IArithmeticCore(ABC):
     """
 
     @abstractmethod
-    def find_arbitrage(self, house_odds: Dict[str, Dict[str, List[float]]]):
+    def find_arbitrage(self, house_odds: Dict[str, Dict[str, List]]):
         """
-        Given dictionary of odds, find arbitrage opportunities
+        Loads all beteador modules from the given python package.
         :param house_odds: odds grouped by source (website)
         :return: found arbitrages
         """
