@@ -29,7 +29,7 @@ class BeteadorCore:
             self.driver.get(scraper_option["website"]["url"])
 
     def run(self):
-        data_by_website: Dict[str, Dict[str, List]]
+        data_by_website: Dict[str, Dict[str, List]] = {}
 
         for idx, (scraper_option, scraper) in enumerate(zip(self.scraper_config_options, self.scrapers)):
             self.logger.debug(f"Scraping website: {scraper_option.website['url']}")

@@ -11,7 +11,7 @@ typeWebDriver = Union[webdriver.Firefox,
 
 import logging
 
-from src.core.interfaces.inner.scraper import ScraperInterface
+from src.core.interfaces.scraper import IScraper
 import pandas
 
 url = "https://sports.bwin.es/es/sports/tenis-5/apuestas"
@@ -85,7 +85,7 @@ def format_name(elem):
 
 
 # TODO mas tests para asegurarse de que es robusto
-class ModuleScraper(ScraperInterface):
+class ModuleScraper(IScraper):
     def __init__(self, logger: logging.Logger):
         self.logger = logger
     def scrap(self, driver: typeWebDriver) -> Dict:

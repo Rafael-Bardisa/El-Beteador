@@ -9,6 +9,6 @@ class ArithmeticCore(IArithmeticCore):
         self.logger = logger
         self.logger.debug(f"Arithmetic Core initialized")
 
-    def find_arbitrage(self, house_odds: Dict[str, List]):
+    def find_arbitrage(self, house_odds: Dict[str, Dict[str, List]]):
         pass
 

@@ -1,0 +1,1 @@
+from src.core.beteador_core import BeteadorCore

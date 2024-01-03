@@ -11,7 +11,7 @@ typeWebDriver = Union[webdriver.Firefox,
                       webdriver.Safari
                       ]
 
-from src.core.interfaces.inner.scraper import ScraperInterface
+from src.core.interfaces.scraper import IScraper
 import pandas
 
 url = "https://sports.williamhill.es/betting/es-es/tenis/partidos/competici%C3%B3n/hoy"
@@ -69,7 +69,7 @@ def apellido(surnamedata: str) -> str:  # corta str en el primer caracter no alf
     surname = surnamedata.split('\n')
     return surname[0]
 
-class ModuleScraper(ScraperInterface):
+class ModuleScraper(IScraper):
     def __init__(self, logger: logging.Logger):
         self.logger = logger
 

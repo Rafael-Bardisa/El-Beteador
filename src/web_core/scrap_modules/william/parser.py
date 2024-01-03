@@ -1,9 +1,9 @@
 import logging
-from typing import Dict
+from typing import Dict, List
 
 import pandas
 
-from src.web_core.scraper.interfaces.inner.parser import ParserInterface
+from src.web_core.scraper.interfaces.parser import IParser
 
 
 def process_names(names):
@@ -52,11 +52,11 @@ def apellido(surnamedata: str) -> str:  # corta str en el primer caracter no alf
     surname = surnamedata.split('\n')
     return surname[0]
 
-class ModuleParser(ParserInterface):
+class ModuleParser(IParser):
     def __init__(self, logger: logging.Logger):
         self.logger = logger
 
-    def parse(self, data: Dict) -> Dict:
+    def parse(self, data: Dict) -> Dict[str, List]:
         """
         Parses data from william webpage and returns dict of found matches
         :param data: whatever result from extracter, to be fully treated in this function

@@ -11,7 +11,7 @@ typeWebDriver = Union[webdriver.Firefox,
 
 import logging
 
-from src.core.interfaces.inner.scraper import ScraperInterface
+from src.core.interfaces.scraper import IScraper
 import pandas
 
 url = "https://betway.es/es/sports/sct/tennis/challenger"
@@ -44,7 +44,7 @@ def split_betway_names(betway_names):
 
 # TODO cuando hay destacados coge containers que no son de partidos. Se arregla eligiendo un unico torneo pero eso
 #  reduce mucho lo que cogemos
-class ModuleScraper(ScraperInterface):
+class ModuleScraper(IScraper):
     def __init__(self, logger: logging.Logger):
         self.logger = logger
 
