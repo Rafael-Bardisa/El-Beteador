@@ -2,6 +2,8 @@ from selenium import webdriver
 from pathlib import Path
 import os
 
+from src.core.interfaces.driver_manager import typeWebDriver
+
 
 # opciones de chrome para intentar camuflar el driver
 
@@ -48,7 +50,7 @@ def get_path(local=True):
     return path.split('#')[1]
 
 
-def chrome(*, js_framework_path: Path):
+def chrome(*, js_framework_path: Path) -> typeWebDriver:
     with open(js_framework_path / "myQuery.js") as js_framework_file:
         js_framework = js_framework_file.read()
 
