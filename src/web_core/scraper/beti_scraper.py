@@ -14,11 +14,12 @@ class BetiScraper(IScraper):
         self.extracter = extracter
         self.parser = parser
 
-    def scrap(self, driver: typeWebDriver) -> Dict[str, List]:
-
-        self.logger.debug(f"Hydrating page")
+    def prepare_page(self, driver: typeWebDriver) -> bool:
+        self.logger.debug(f"preparing web page for scraping")
         self.hydrater.hydrate(driver)
+        return True
 
+    def scrap(self, driver: typeWebDriver) -> Dict[str, List]:
         self.logger.debug(f"Extracting web data")
         raw_website_data = self.extracter.extract(driver)
 

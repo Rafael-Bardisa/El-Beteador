@@ -36,6 +36,7 @@ class BeteadorCore:
             self.logger.debug(f"Opening website: {scraper_option.website['url']}")
             driver.get(scraper_option.website["url"])
 
+            scraper.prepare_page(driver)
             self.driver_scraper_pairs[driver] = scraper
 
     def run(self):
