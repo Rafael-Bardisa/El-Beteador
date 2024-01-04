@@ -27,7 +27,6 @@ config.read('config.ini')
 scrap_modules_directory = str(config["scrap_modules"]["directory"])
 
 driver_manager = DriverManager(logger)
-driver = driver_manager.create_driver("chrome")
 
 config_manager = ConfigManager(logger)
 
@@ -39,10 +38,9 @@ module_loader = BetiImporter(logger
 arithmetic_core = ArithmeticCore(logger)
 
 beti_core = BeteadorCore(logger
-                         , driver
+                         , driver_manager
                          , module_loader
-                         , arithmetic_core
-                         )
+                         , arithmetic_core)
 
 beti_core.setup(Path(scrap_modules_directory))
 beti_core.run()
