@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 from src.web_core.scraper.interfaces.parser import IParser
 
@@ -11,7 +11,7 @@ class ModuleParser(IParser):
 	def __init__(self, logger: logging.Logger):
 		self.logger = logger
 
-	def parse(self, data: Dict) -> Dict:
+	def parse(self, data: Dict) -> Dict[str, List]:
 		"""
 		Parses data from betfred webpage and returns dict of found matches
 		:param data: whatever result from extracter, to be fully treated in this function
