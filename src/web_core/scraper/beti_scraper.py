@@ -23,7 +23,7 @@ class BetiScraper(IScraper):
         self.logger.debug(f"Extracting web data")
         raw_website_data = self.extracter.extract(driver)
 
-        self.logger.debug(f"Parsing web data")
+        self.logger.debug(f"Parsing web data: {raw_website_data}")
         result = self.parser.parse(raw_website_data)
 
         self.logger.debug(f"Parsed web data. Result: {result}")
