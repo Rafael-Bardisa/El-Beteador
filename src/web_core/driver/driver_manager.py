@@ -2,7 +2,8 @@ import logging
 from typing import Literal
 from pathlib import Path
 
-from src.core.interfaces.driver_manager import IDriverManager, typeWebDriver
+from src.core.interfaces.driver_manager import IDriverManager
+from ...core.types.type_webdriver import TypeWebDriver
 
 from .chromedriver import chrome
 
@@ -16,7 +17,7 @@ class DriverManager(IDriverManager):
 
         self.logger.debug(f"DriverManager instantiated. Framework folder: {self.framework_folder}")
         pass
-    def create_driver(self, driver_type: Literal["firefox", "chrome", "safari", "edge"]) -> typeWebDriver:
+    def create_driver(self, driver_type: Literal["firefox", "chrome", "safari", "edge"]) -> TypeWebDriver:
         if not driver_type in ["firefox", "chrome", "safari", "edge"]:
             raise TypeError('Driver must be one of ["firefox", "chrome", "safari", "edge"]')
 

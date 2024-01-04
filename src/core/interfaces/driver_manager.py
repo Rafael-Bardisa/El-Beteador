@@ -1,13 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Union, Literal
+from typing import Literal
 
-from selenium import webdriver
-
-typeWebDriver = Union[webdriver.Firefox,
-                      webdriver.Chrome,
-                      webdriver.Edge,
-                      webdriver.Safari
-                      ]
+from src.core.types.type_webdriver import TypeWebDriver
 
 
 class IDriverManager(ABC):
@@ -16,7 +10,7 @@ class IDriverManager(ABC):
     """
 
     @abstractmethod
-    def create_driver(self, driver_type: Literal["firefox", "chrome", "safari", "edge"]) -> typeWebDriver:
+    def create_driver(self, driver_type: Literal["firefox", "chrome", "safari", "edge"]) -> TypeWebDriver:
         """
         Loads all beteador modules from the given python package.
         :param driver_type: the type of driver to create (e.g, chrome, safari, firefox, edge

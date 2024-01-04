@@ -5,7 +5,8 @@ from typing import Dict, List
 
 from src.core.interfaces.module_importer import IModuleImporter
 from src.core.interfaces.arithmetic_core import IArithmeticCore
-from src.core.interfaces.driver_manager import IDriverManager, typeWebDriver
+from src.core.interfaces.driver_manager import IDriverManager
+from src.core.types.type_webdriver import TypeWebDriver
 from src.core.interfaces.scraper import IScraper
 from src.core.types.scraper_config import ScraperConfig
 
@@ -23,7 +24,7 @@ class BeteadorCore:
         self.scraper_config_options: List[ScraperConfig] = []
         self.scrapers: List[IScraper] = []
 
-        self.driver_scraper_pairs: Dict[typeWebDriver, IScraper] = {}
+        self.driver_scraper_pairs: Dict[TypeWebDriver, IScraper] = {}
 
     def setup(self, scrap_modules_directory: pathlib.Path):
         self.logger.debug(f"Setting up BeteadorCore. Scrap modules path: {scrap_modules_directory}")

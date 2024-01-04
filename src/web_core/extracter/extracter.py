@@ -1,7 +1,8 @@
 import pathlib
 from typing import Dict
 
-from src.web_core.scraper.interfaces.extracter import IExtracter, typeWebDriver
+from src.core.types.type_webdriver import TypeWebDriver
+from src.web_core.scraper.interfaces.extracter import IExtracter
 
 import logging
 
@@ -17,7 +18,7 @@ class BetiExtracter(IExtracter):
 
         self.logger.debug(f"Extracter instantiated with script: {self.extracter_script}")
 
-    def extract(self, driver: typeWebDriver, *args) -> Dict:
+    def extract(self, driver: TypeWebDriver, *args) -> Dict:
         self.logger.debug(f"Executing Extracter script...")
         result = driver.execute_script(self.extracter_script, *args)
         self.logger.debug(f"Extracter result: {result}")

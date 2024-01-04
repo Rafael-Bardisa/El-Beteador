@@ -1,7 +1,7 @@
 import pathlib
 
+from src.core.types.type_webdriver import TypeWebDriver
 from src.web_core.scraper.interfaces.hydrater import IHydrater
-from selenium.webdriver.chrome.webdriver import WebDriver
 
 import logging
 
@@ -17,7 +17,7 @@ class BetiHydrater(IHydrater):
 
         self.logger.debug(f"Hydrater instantiated with script: {self.hydrater_script}")
 
-    def hydrate(self, driver: WebDriver, *args) -> None:
+    def hydrate(self, driver: TypeWebDriver, *args) -> None:
         self.logger.debug(f"Executing Hydrater script...")
         driver.execute_script(self.hydrater_script, *args)
         self.logger.debug(f"Hydrater executed successfully")
