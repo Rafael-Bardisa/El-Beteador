@@ -52,7 +52,7 @@ class BetiImporter(IModuleImporter):
 
         hydrater = BetiHydrater(self.logger, module_directory / "hydrater.js")
         extracter = BetiExtracter(self.logger, module_directory / "extracter.js")
-        parser: IParser = importlib.import_module(f"{module_directory.name}.parser").ModuleParser
+        parser: IParser = importlib.import_module(f"{module_directory.name}.parser").ModuleParser(self.logger)
 
         scraper = BetiScraper(self.logger, hydrater, extracter, parser)
 
