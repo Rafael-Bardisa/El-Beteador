@@ -40,7 +40,8 @@ arithmetic_core = ArithmeticCore(logger)
 beti_core = BeteadorCore(logger
                          , driver_manager
                          , module_loader
-                         , arithmetic_core)
+                         , arithmetic_core
+                         )
 
 beti_core.setup(Path(scrap_modules_directory))
 beti_core.run()
