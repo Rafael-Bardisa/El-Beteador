@@ -48,4 +48,4 @@ def create_new_scraper_template(name: str, logger: logging.Logger):
 if __name__ == "__main__":
     logger = logging.Logger(__name__, logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
-    create_new_scraper_template("bwin", logger)
+    create_new_scraper_template("jokerbet", logger)
