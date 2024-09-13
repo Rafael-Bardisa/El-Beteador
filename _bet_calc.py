@@ -2,6 +2,9 @@ import pandas as pd
 
 
 def f(cuota):  # auxiliar
+    '''
+    insert \"cuota\" as an argument, get cuota/(cuota-1)
+    '''
     return cuota/(cuota - 1)
 
 
