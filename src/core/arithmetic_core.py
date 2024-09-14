@@ -28,6 +28,13 @@ def big_merge(odd_1: pd.Series, odd_2: pd.Series, house_1: pd.Series, house_2: p
 
 # comprueba si vale la pena apostar si hay cuotas a, b
 def z(a, b) -> float:
+    """
+    Métrica que valora el retorno de una apuesta con cuotas a, b utilizando la apuesta de varianza 0
+    :param a: el retorno por euro apostado si gana el jugador 1
+    :param b: el retorno por euro apostado si gana el jugador 2
+
+    :returns: el dinero que se gana al apostar a+b en total
+    """
     return a * b - (a + b)
 
 
