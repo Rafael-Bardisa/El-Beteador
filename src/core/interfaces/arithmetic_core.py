@@ -4,7 +4,7 @@ from typing import Dict, List
 
 class IArithmeticCore(ABC):
     """
-    Interface for a module containing the logic to find arbitrage given odds grouped by houses
+    TODO Interface for a module containing the logic to find arbitrage given odds grouped by houses
     """
 
     @abstractmethod

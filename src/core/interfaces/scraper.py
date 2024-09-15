@@ -15,14 +15,14 @@ class IScraper(ABC):
     def prepare_page(self, driver: TypeWebDriver) -> bool:
         """
         prepares the page in the driver for scraping
-        :param driver:
-        :return:
+        :param driver: a WebDriver instance to be connected to the betting website
+        :return: bool whether the setup is successful or not
         """
 
     @abstractmethod
     def scrap(self, driver: TypeWebDriver) -> Dict[str, List]:
         """
-        Scraps match data from a given webdriver session. Assumes it is correctly aet up and hydrated
+        Scraps match data from a given webdriver session. Assumes it is correctly set up and hydrated
         :param driver: A chrome webdriver
         :return: dictionary containing {match: [odd 1, odd 2]}
         where match should be a consistent identifier between websites

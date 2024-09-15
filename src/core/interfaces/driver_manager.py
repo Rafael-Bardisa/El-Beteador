@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Literal
 
+# TODO find better linter for webdrivers
 from src.core.types.type_webdriver import TypeWebDriver
 
 

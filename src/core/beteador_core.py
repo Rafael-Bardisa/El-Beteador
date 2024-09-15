@@ -11,6 +11,9 @@ from src.core.interfaces.scraper import IScraper
 from src.core.types.scraper_config import ScraperConfig
 
 class BeteadorCore:
+    """
+    Contains the high level logic of El Beteador. Defers low level implementations to its components and communicates through abstract interfaces.
+    """
     def __init__(self
                  , logger: logging.Logger
                  , driver_manager: IDriverManager
@@ -27,6 +30,11 @@ class BeteadorCore:
         self.driver_scraper_pairs: Dict[TypeWebDriver, IScraper] = {}
 
     def setup(self, scrap_modules_directory: pathlib.Path):
+        """
+        Inplace set up the websites to scrap for data.
+
+        :param scrap_modules_directory: The path to find the scrapers to load.
+        """
         self.logger.debug(f"Setting up BeteadorCore. Scrap modules path: {scrap_modules_directory}")
         self.scraper_config_options, self.scrapers = self.module_loader.import_scrapers(scrap_modules_directory)
 
@@ -41,6 +49,9 @@ class BeteadorCore:
             self.driver_scraper_pairs[driver] = scraper
 
     def run(self):
+        """
+        Find possible arbitrages through all possible scrapers and return the possible combinations.
+        """
         data_by_website: Dict[str, Dict[str, List]] = {}
 
         for scraper_option, (driver, scraper) in zip(self.scraper_config_options, self.driver_scraper_pairs.items()):
