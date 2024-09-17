@@ -19,7 +19,7 @@ class ModuleParser(IParser):
 		"""
 		self.logger.debug(f"Parser received data: {data}")
 
-		# diccionario a llenar con las datas scrapeadas
+		# replace with own code to parse scraped data
 		{name}_dict = {dict}
 
 		self.logger.debug(f"Parsed data: {parsed_data}")

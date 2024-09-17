@@ -10,6 +10,15 @@ from src.use_cases.read_config_template import config_template
 
 
 def create_new_scraper_template(name: str, logger: logging.Logger):
+    """
+    Creates a new scraper template consisting of:
+    - a YAML config file
+    - a hydrater js file
+    - a parser py file
+    - an extracter js file
+
+    These files separate the functions needed to correctly get the data from any website
+    """
     scraper_path = scrap_modules_directory / name
 
     if os.path.exists(scraper_path):

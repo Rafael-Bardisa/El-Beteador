@@ -102,4 +102,11 @@ let Q = {
     },
 };
 
+const Beti = {
+    done: function() {
+    const beti_element = document.createElement("div")
+    beti_element.addClass("beti_end").addTo(Q.get("body"))
+    }
+}
+
 //"li.text-body-small a.ember-view"
