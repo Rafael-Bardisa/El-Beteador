@@ -13,6 +13,7 @@ from src.web_core.importer.importer import BetiImporter
 from src.web_core.config_manager.config_manager import ConfigManager
 
 
+# TODO usar logger mejorado, ETA 20/09
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 console_handler = logging.StreamHandler(sys.stdout)
