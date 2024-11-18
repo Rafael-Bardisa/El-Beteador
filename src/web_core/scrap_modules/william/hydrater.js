@@ -9,6 +9,6 @@ setTimeout(() => {
                 element.remove();
             }
         }
+        Beti.done()
     }
     ,1000)
-

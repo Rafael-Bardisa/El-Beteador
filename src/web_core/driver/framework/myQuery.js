@@ -40,6 +40,11 @@ const QUTILS = {
         return this;
     },
 
+    setId: function(id) {
+        this.id = id;
+        return this
+    }
+
     /**
      * add event listeners but better
      * @param event_callback_pairs {event: callback}
@@ -103,9 +108,10 @@ let Q = {
 };
 
 const Beti = {
-    done: function() {
+    done: function(id) {
+    // Call this function to signal to the hydrater that the page is good to load. The hydrater is responsible for its internal workings.
     const beti_element = document.createElement("div")
-    beti_element.addClass("beti_end").addTo(Q.get("body"))
+    beti_element.setId(id).addTo(Q.get("body"))
     }
 }
 

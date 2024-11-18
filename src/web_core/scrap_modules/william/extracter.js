@@ -3,7 +3,7 @@ const william_odds = Array
     .slice
     .call(
         document
-            .getElementsByClassName("betbutton__odds")
+        .getElementsByClassName("betbutton__odds")
     )
     .map(
         function (match){return match.innerText}
@@ -13,7 +13,7 @@ const william_names = Array
     .slice
     .call(
         document
-            .getElementsByClassName("btmarket__content")
+        .getElementsByClassName("btmarket__content")
     )
     .map(
         function (match){return match.innerText}
