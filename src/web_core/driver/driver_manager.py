@@ -23,13 +23,16 @@ class DriverManager(IDriverManager):
 
         if driver_type == "firefox":
             self.logger.debug(f"Creating driver: Firefox")
+            self.logger.error(f"Not implemented yet")
             pass
         elif driver_type == "chrome":
             self.logger.debug(f"Creating driver: Chrome")
             return chrome(js_framework_path=self.framework_folder)
         elif driver_type == "safari":
             self.logger.debug(f"Creating driver: Safari")
+            self.logger.error(f"Not implemented yet")
             pass
         elif driver_type == "edge":
             self.logger.debug(f"Creating driver: Edge")
+            self.logger.error(f"Not implemented yet")
             pass

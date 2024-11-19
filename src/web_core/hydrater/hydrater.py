@@ -25,6 +25,6 @@ class BetiHydrater(IHydrater):
 
         self.logger.debug(f"Executing Hydrater script...")
         driver.execute_script(id_injector + self.hydrater_script, *args)
-        # TODO set up implicit wait and test this part of the code
+        # TODO test
         driver.find_element(value=beti_signal)
         self.logger.debug(f"Hydrater executed successfully")

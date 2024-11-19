@@ -22,6 +22,7 @@ def chrome_profile():
 
     return chrome_options
 
+'''
 def config_path(path_str):
     """
     writes the chromedriver path to the chromedriver_path.txt
@@ -48,7 +49,7 @@ def get_path(local=True):
     with open(path_txt, "r") as source:
         path = source.read()
     return path.split('#')[1]
-
+'''
 
 def chrome(*, js_framework_path: Path) -> TypeWebDriver:
     with open(js_framework_path / "myQuery.js") as js_framework_file:
@@ -56,4 +57,5 @@ def chrome(*, js_framework_path: Path) -> TypeWebDriver:
 
     driver = webdriver.Chrome(options=chrome_profile())
     driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {'source': js_framework})
+    driver.implicitly_wait(15)
     return driver
