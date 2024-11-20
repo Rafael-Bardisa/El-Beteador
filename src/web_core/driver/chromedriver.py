@@ -56,6 +56,6 @@ def chrome(*, js_framework_path: Path) -> TypeWebDriver:
         js_framework = js_framework_file.read()
 
     driver = webdriver.Chrome(options=chrome_profile())
-    driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {'source': js_framework})
-    driver.implicitly_wait(15)
+    driver.implicitly_wait(60)
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": js_framework})
     return driver

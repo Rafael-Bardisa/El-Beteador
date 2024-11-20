@@ -43,7 +43,7 @@ const QUTILS = {
     setId: function(id) {
         this.id = id;
         return this
-    }
+    },
 
     /**
      * add event listeners but better
@@ -114,5 +114,4 @@ const Beti = {
     beti_element.setId(id).addTo(Q.get("body"))
     }
 }
-
 //"li.text-body-small a.ember-view"
