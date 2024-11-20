@@ -23,7 +23,7 @@ class BetiHydrater(IHydrater):
         beti_signal: str = str(uuid.uuid4())
         id_injector = f'Beti.done = Beti.done.bind(Beti, "{beti_signal}");\n'
 
-        self.logger.debug(f"Executing Hydrater script...")
+        self.logger.debug(f"Executing Hydrater script. Waiting for signal: {beti_signal}")
         driver.execute_script(id_injector + self.hydrater_script, *args)
         # TODO test
         driver.find_element(value=beti_signal)
